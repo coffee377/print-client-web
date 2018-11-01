@@ -89,6 +89,11 @@ module.exports = {
 					}
 				}
 			},
+			/*用于HTML页面热更新*/
+			{
+				test: /\.(htm|html)$/,
+				use: ['raw-loader']
+			},
 			{
 				test: /\.(png|jpg|gif|svg)$/,
 				use: [
@@ -108,9 +113,11 @@ module.exports = {
 			template: paths.appHtml,
 			favicon: './public/favicon.ico',
 			minify: {
-				removeComments: true,//删除注释
-				collapseWhitespace: true//删除空格
-			}
+				// removeComments: true,//删除注释
+				// collapseWhitespace: true//删除空格
+				minifyJS: false
+			},
+			inject: 'body'
 		}),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].css',

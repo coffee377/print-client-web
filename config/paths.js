@@ -20,7 +20,7 @@ const getPublicUrl = process.env.PUBLIC_URL || packageJson.homepage;
  * @returns {*|*|string}
  */
 const resolveApp = (relativePath) => {
-	path.resolve(appDirectory, relativePath);
+	return path.resolve(appDirectory, relativePath);
 };
 
 /**
