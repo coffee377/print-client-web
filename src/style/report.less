@@ -1,0 +1,47 @@
+@import "report.variables.less";
+
+.rep {
+	width: @rep-width;
+	height: @rep-height;
+	margin: 0 auto;
+
+	&-param {
+		position: relative;
+		font-size: 14px;
+		line-height: 14px;
+		-webkit-border-radius: @rep-radius;
+		-moz-border-radius: @rep-radius;
+		border-radius: @rep-radius;
+
+		&-glass {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			opacity: @rep-glass-opacity;
+			z-index: -100;
+			border-radius: 10px;
+			background-color: @color-white;
+			border: 1px #9c9c9c solid;
+		}
+
+		&-form {
+			padding: @rep-param-padding 10px;
+			height: 100%;
+			width: 100%;
+		}
+
+	}
+	&-iframe {
+		width: 100%;
+		margin-top: @rep-body-mt;
+		height: calc(100% - 2 * @rep-param-padding - @rep-body-mt - 32px);
+		padding: 0;
+		border: none;
+	}
+	.bg-color {
+		background-color: @color-white;
+	}
+
+}
+
+

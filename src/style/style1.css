@@ -1,0 +1,11 @@
+@charset "utf-8";
+.div1 {
+	background: #f1210c;
+	box-sizing: border-box;
+	/*border-radius: 30px;*/
+	display: flex;
+}
+
+body {
+	background-image: url('../img/bg2_1600×900.jpg');
+}
