@@ -3,11 +3,29 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/jquery.serializejson.js"></script>
 	<title>ES6 Webpack Demo</title>
 </head>
-<body>
+<body style="height: 100%">
 <!--<div class="div1">Hello World 测试css</div>-->
-<div class="div2">Hello World 测试scss</div>
-<div class="div3">Hello World 测试less</div>
+<!--<div class="div2">Hello World 测试scss</div>-->
+<!--<div class="div3">Hello World 测试less</div>-->
+<form id="reportForm">
+	<input name="reportlet" value="common/NBPH/OLD_INFORMATION.cpt">
+	<input name="year" value="2018">
+	<input name="userOrgName" value="贵州省卫生计生委">
+	<input name="userName" value="gzadmin">
+	<input name="area_id" value="52">
+	<input name="countTime" value="">
+	<input name="userArea" value="52">
+	<input name="userOrgCode" value="520000000146">
+	<input name="quarter" value="3">
+</form>
+<button id="query" onclick="query()">查询</button>
+<div class="rep" style="height: 100%">
+	<div class="rep-param"></div>
+	<iframe id="reportFrame" name="reportFrame" class="rep-iframe" src=""></iframe>
+</div>
 </body>
 </html>

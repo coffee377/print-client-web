@@ -16,7 +16,7 @@ module.exports = merge(common, {
 		hot: true,
 		open: true,
 		noInfo: true,
-		contentBase: './dist',
+		contentBase: './public',
 		compress: true,
 		proxy: {
 			'/api': 'http://localhost:3000'

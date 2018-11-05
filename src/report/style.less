@@ -1,4 +1,4 @@
-@import "report.variables.less";
+@import "style.variables.less";
 
 .rep {
 	width: @rep-width;
@@ -32,11 +32,12 @@
 
 	}
 	&-iframe {
+		border: 1px red dashed;
 		width: 100%;
 		margin-top: @rep-body-mt;
 		height: calc(100% - 2 * @rep-param-padding - @rep-body-mt - 32px);
 		padding: 0;
-		border: none;
+		//border: none;
 	}
 	.bg-color {
 		background-color: @color-white;

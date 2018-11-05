@@ -29,13 +29,18 @@ const cssExtractLoader = () => {
 };
 module.exports = {
 	entry: {
-		index: './src/index',
-		report: './src/script/report'
+		app: './src/app/index',
+		common: './src/common/index',
+		report: './src/report/index'
 	},
 	output: {
 		publicPath: paths.publicPath,
 		path: paths.appDist,
 		filename: 'js/[name].js',
+	},
+	/*使用 jQuery*/
+	externals: {
+		'jquery': 'window.jQuery'
 	},
 	module: {
 		rules: [
@@ -104,7 +109,15 @@ module.exports = {
 						}
 					}
 				]
-			}
+			},
+			// //暴露$和jQuery到全局
+			// {
+			// 	test: require.resolve('jquery'),
+			// 	use: [
+			// 		{loader: 'expose-loader', options: 'jQuery'},
+			// 		{loader: 'expose-loader', options: '$'}
+			// 	]
+			// }
 		]
 	},
 	plugins: [
@@ -117,7 +130,7 @@ module.exports = {
 				// collapseWhitespace: true//删除空格
 				minifyJS: false
 			},
-			inject: 'body'
+			// inject: 'head'
 		}),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].css',
