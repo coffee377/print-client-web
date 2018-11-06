@@ -54,39 +54,56 @@ const getReportUrl = (params, url) => {
  * @param selector jQuery 选择器
  * @returns {*|jQuery}
  */
-function getFormData(selector) {
+let getFormData = (selector) => {
 	debugger;
 	const data = $(selector).serializeJSON({checkboxUncheckedValue: 'false', parseBooleans: true});
 	console.log(JSON.stringify(data));
 	return data;
-}
+};
 
 /**
- * 根据报表表单 id 序列化为查询参数
- * @param id 报表ID
+ * 根据报表表单序列化为查询参数
+ * @param reportId 报表ID
  * @returns map
  */
-const serializeJSON = (id) => {
-	const _r = id ? $(REPORT_FORM_ID + id) : $(REPORT_FORM_ID);
+const serializeJSON = (reportId) => {
+	const _r = reportId ? $(REPORT_FORM_ID + reportId) : $(REPORT_FORM_ID);
 	return getFormData(_r);
 };
 
 /**
  * 根据报表表单 id 查询报表内容
- * @param id 报表ID
+ * @param reportId 报表ID
  */
-let query = (id) => {
+const queryReport = (reportId) => {
 	debugger;
-	const _r = id ? $(REPORT_FRAME_ID + id) : $(REPORT_FRAME_ID);
+	const _r = reportId ? $(REPORT_FRAME_ID + reportId) : $(REPORT_FRAME_ID);
 	const reportServer = getReportServer();
-	const params = serializeJSON(id);
+	const params = serializeJSON(reportId);
 	const url = getReportUrl(params, reportServer);
 	console.log(url);
 	_r.attr('src', url).addClass('bg-color');
 };
 
-window.query = function (id) {
+/**
+ * js 动态设置指定表单的报表路径
+ * @param reportId 报表ID
+ * @param reportlet 报表路径
+ */
+const switchReport = (reportlet, reportId) => {
 	debugger;
-	query(id);
+	const _r = reportId ? $(REPORT_FORM_ID + reportId) : $(REPORT_FORM_ID);
+	_r.find('input[name=\'reportlet\']').val(reportlet);
+};
+
+// TODO: 2018/11/6 0006 9:26 如何暴露统一接口????
+window.reportQuery = function (reportId) {
+	debugger;
+	queryReport(reportId);
+};
+
+window.reportSwitch = function (reportlet, reportId) {
+	debugger;
+	switchReport(reportlet, reportId);
 };
 
