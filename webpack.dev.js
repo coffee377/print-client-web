@@ -1,4 +1,6 @@
 'use strict';
+const env = 'development';
+process.env.NODE_ENV = env;
 
 const merge = require('webpack-merge');
 const paths = require('./config/paths');
@@ -6,7 +8,7 @@ const common = require('./webpack.common.js');
 const webpack = require('webpack');
 
 module.exports = merge(common, {
-	mode: 'development',
+	mode: env,
 	devtool: 'inline-source-map',
 	devServer: {
 		publicPath: paths.publicPath,

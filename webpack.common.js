@@ -3,11 +3,10 @@
 const path = require('path');
 const paths = require('./config/paths');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AutoPreFixer = require('autoprefixer')();
 
-const NODE_ENV = process.env.NODE_ENV.trim();
+const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
 	throw new Error(
 		'The NODE_ENV environment variable is required but was not specified.'
@@ -15,7 +14,7 @@ if (!NODE_ENV) {
 } else {
 	console.log('NODE_ENV：', NODE_ENV);
 }
-const devMode = (NODE_ENV !== 'prod');
+const devMode = (NODE_ENV !== 'production');
 
 const getPublicPath = (relativePath) => {
 	return relativePath ? {publicPath: relativePath} : {};
@@ -122,16 +121,6 @@ module.exports = {
 	},
 	plugins: [
 		new CleanWebpackPlugin(['dist']),
-		new HtmlWebpackPlugin({
-			template: paths.appHtml,
-			favicon: './public/favicon.ico',
-			minify: {
-				// removeComments: true,//删除注释
-				// collapseWhitespace: true//删除空格
-				minifyJS: false
-			},
-			// inject: 'head'
-		}),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].css',
 			chunkFilename: '[id].css',
