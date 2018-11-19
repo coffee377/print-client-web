@@ -35,7 +35,7 @@ module.exports = merge(common, {
 				minifyCSS: true,
 				minifyURLs: true
 			},
-			// inject: 'head'
+			inject: 'head'
 		}),
 		new CopyWebpackPlugin([
 			{
