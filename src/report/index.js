@@ -2,6 +2,7 @@ import './style.less';
 
 const REPORT_FRAME_ID = '#reportFrame';
 const REPORT_FORM_ID = '#reportForm';
+let _reportServer = null;
 
 /**
  * 获取Get请求详细地址
@@ -25,13 +26,18 @@ const getUrl = (url, params) => {
 };
 
 /**
- * 获取报表服务地址 API 接口
+ * 获取报表服务地址
  * @returns {string}
  */
 const getReportServer = () => {
-	// TODO: 2018/11/5 0005 11:13 API获取服务地址
-	// $.get()
-	return 'http://192.168.88.235:8083/WebReport/ReportServer';
+	let server;
+	debugger;
+	if (_reportServer) {
+		server = _reportServer;
+	} else {
+		throw new Error('请设置报表服务地址');
+	}
+	return server;
 };
 
 /**
@@ -44,7 +50,7 @@ const getReportUrl = (params, url) => {
 	if (url) {
 		return encodeURI(getUrl(url, params));
 	} else {
-		/*如果报表服务地址为空，则根据API接口进行获取*/
+		/*如果报表服务地址为空，则根据用户设置进行获取*/
 		return encodeURI(getUrl(getReportServer(), params));
 	}
 };
@@ -74,11 +80,11 @@ const serializeJSON = (reportId) => {
 /**
  * 根据报表表单 id 查询报表内容
  * @param reportId 报表ID
+ * @param reportServer 报表服务地址（可选）
  */
-const queryReport = (reportId) => {
+const queryReport = (reportId, reportServer) => {
 	debugger;
 	const _r = reportId ? $(REPORT_FRAME_ID + reportId) : $(REPORT_FRAME_ID);
-	const reportServer = getReportServer();
 	const params = serializeJSON(reportId);
 	const url = getReportUrl(params, reportServer);
 	console.log(url);
@@ -87,8 +93,8 @@ const queryReport = (reportId) => {
 
 /**
  * js 动态设置指定表单的报表路径
+ * @param reportlet 待切换报表路径
  * @param reportId 报表ID
- * @param reportlet 报表路径
  */
 const switchReport = (reportlet, reportId) => {
 	debugger;
@@ -96,14 +102,57 @@ const switchReport = (reportlet, reportId) => {
 	_r.find('input[name=\'reportlet\']').val(reportlet);
 };
 
-// TODO: 2018/11/6 0006 9:26 如何暴露统一接口????
-window.reportQuery = function (reportId) {
-	debugger;
-	queryReport(reportId);
+if (window.report == null) {
+	window.report = {};
+}
+report = {
+	/**
+	 * 设置报表服务器地址（优先级最高）
+	 * @param reportServer
+	 */
+	setReportServer: function (reportServer) {
+		debugger;
+		_reportServer = reportServer;
+	},
+	/**
+	 * 查询报表
+	 * @param reportId 报表ID
+	 * @param reportServer 报表服务地址
+	 * @see #queryReport
+	 */
+	query: function (reportId, reportServer) {
+		debugger;
+		queryReport(reportId, reportServer);
+	},
+	/**
+	 *
+	 * @param reportlet
+	 * @param reportId
+	 * @see switchReport
+	 */
+	switch: function (reportlet, reportId) {
+		debugger;
+		switchReport(reportlet, reportId);
+	}
 };
 
+/**
+ *
+ * @param reportId
+ * @param reportServer
+ * @deprecated
+ */
+window.reportQuery = function (reportId, reportServer) {
+	debugger;
+	queryReport(reportId, reportServer);
+};
+/**
+ *
+ * @param reportlet
+ * @param reportId
+ * @deprecated
+ */
 window.reportSwitch = function (reportlet, reportId) {
 	debugger;
 	switchReport(reportlet, reportId);
 };
-

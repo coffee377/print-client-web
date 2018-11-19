@@ -8,10 +8,10 @@
 	<title>ES6 Webpack Demo</title>
 </head>
 <body style="height: 100%">
-<!--<div class="div1">Hello World 测试css</div>-->
-<!--<div class="div2">Hello World 测试scss</div>-->
-<!--<div class="div3">Hello World 测试less</div>-->
-<form id="reportForm" disabled>
+<div class="div1">Hello World 测试css</div>
+<div class="div2">Hello World 测试scss</div>
+<div class="div3">Hello World 测试less</div>
+<form id="reportForm123456" disabled>
 	<input name="reportlet" value="common/NBPH/OLD_INFORMATION.cpt">
 	<input name="year" value="2018">
 	<input name="userOrgName" value="贵州省卫生计生委" disabled>
@@ -22,11 +22,19 @@
 	<input name="userOrgCode" value="520000000146">
 	<input name="quarter" value="3">
 </form>
-<button id="query" onclick="reportQuery()">查询</button>
-<button id="query2" onclick="reportSwitch('common/NBPH/OLD_INFORMATION.cpt')">切换报表</button>
+<button id="query" onclick="reportQuery('123456')">原始查询</button>
+<button id="queryNew" onclick="report.query('123456')">新查询</button>
+<button id="query2" onclick="reportSwitch('common.cpt','123456')">原始切换报表</button>
+<button id="query2New" onclick="report.switch('common.cpt','123456')">新切换报表</button>
+<button id="query3" onclick="test1()">测试服务地址</button>
+<button id="query4" onclick="test2()">测试API地址</button>
 <div class="rep" style="height: 100%">
 	<div class="rep-param"></div>
-	<iframe id="reportFrame" name="reportFrame" class="rep-iframe" src=""></iframe>
+	<iframe id="reportFrame123456" name="reportFrame" class="rep-iframe" src=""></iframe>
 </div>
+<script>
+	report.setReportServer('http://192.168.88.235:8083/WebReport/ReportServer');
+	// report.setReportServer('http://42.123.97.19:8086/WebReport/ReportServer');
+</script>
 </body>
 </html>

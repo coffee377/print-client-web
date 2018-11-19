@@ -6,6 +6,7 @@ const merge = require('webpack-merge');
 const paths = require('./config/paths');
 const common = require('./webpack.common.js');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
 	mode: env,
@@ -27,6 +28,10 @@ module.exports = merge(common, {
 
 	plugins: [
 		new webpack.NamedModulesPlugin(),
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin(),
+		new HtmlWebpackPlugin({
+			template: paths.appHtml,
+			inject: 'head'
+		}),
 	]
 });
