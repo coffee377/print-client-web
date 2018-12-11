@@ -1,4 +1,5 @@
 import './style.less';
+import 'print';
 
 const REPORT_FRAME_ID = '#reportFrame';
 const REPORT_FORM_ID = '#reportForm';
@@ -6,9 +7,9 @@ let _reportServer = null;
 
 /**
  * 获取Get请求详细地址
- * @param url 请求地址
- * @param params 请求参数对象
- * @returns {string}
+ * @param {String} url 请求地址
+ * @param {Object} params 请求参数对象
+ * @returns {String}
  */
 const getUrl = (url, params) => {
 	let paramStr = '';
@@ -26,10 +27,10 @@ const getUrl = (url, params) => {
 };
 
 /**
- * 获取报表服务地址
- * @returns {string}
+ * 获取配置的报表服务地址
+ * @returns {String}
  */
-const getReportServer = () => {
+const getSettingReportServer = () => {
 	let server;
 	debugger;
 	if (_reportServer) {
@@ -42,16 +43,16 @@ const getReportServer = () => {
 
 /**
  * 获取报表实际请求地址
- * @param params 请求参数
- * @param url 报表服务地址（可选）
- * @returns {string}
+ * @param {Object} params 请求参数
+ * @param {String} url 报表服务地址（可选）
+ * @returns {String}
  */
 const getReportUrl = (params, url) => {
 	if (url) {
 		return encodeURI(getUrl(url, params));
 	} else {
 		/*如果报表服务地址为空，则根据用户设置进行获取*/
-		return encodeURI(getUrl(getReportServer(), params));
+		return encodeURI(getUrl(getSettingReportServer(), params));
 	}
 };
 
@@ -69,8 +70,8 @@ let getFormData = (selector) => {
 
 /**
  * 根据报表表单序列化为查询参数
- * @param reportId 报表ID
- * @returns map
+ * @param {String} reportId 报表ID
+ * @returns {Object} map
  */
 const serializeJSON = (reportId) => {
 	const _r = reportId ? $(REPORT_FORM_ID + reportId) : $(REPORT_FORM_ID);
@@ -79,8 +80,8 @@ const serializeJSON = (reportId) => {
 
 /**
  * 根据报表表单 id 查询报表内容
- * @param reportId 报表ID
- * @param reportServer 报表服务地址（可选）
+ * @param {String} reportId 报表ID
+ * @param {String} reportServer 报表服务地址（可选）
  */
 const queryReport = (reportId, reportServer) => {
 	debugger;
@@ -88,13 +89,14 @@ const queryReport = (reportId, reportServer) => {
 	const params = serializeJSON(reportId);
 	const url = getReportUrl(params, reportServer);
 	console.log(url);
+	//// TODO: 2018/12/11 0011 9:14 获取sessionId
 	_r.attr('src', url).addClass('bg-color');
 };
 
 /**
  * js 动态设置指定表单的报表路径
- * @param reportlet 待切换报表路径
- * @param reportId 报表ID
+ * @param {String} reportlet 待切换报表路径
+ * @param {String} reportId 报表ID
  */
 const switchReport = (reportlet, reportId) => {
 	debugger;
