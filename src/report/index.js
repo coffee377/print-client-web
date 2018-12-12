@@ -1,6 +1,6 @@
 import './style.less';
 import './base';
-import {reportQuery} from './query';
+import {reportQuery,setParamsPrefix} from './query';
 import {reportPreview, reportPrint} from './print';
 import {changeValue, REPORT_FORM_ID_PREFIX} from './base';
 import {Report} from './report.ts';
@@ -33,9 +33,17 @@ report = {
 	setReportServer: function (reportServer) {
 		debugger;
 		_reportServer = reportServer;
+
 	},
 	getReportServer: function () {
 		return _reportServer;
+	},
+	/**
+	 * 设置表单参数前缀（优先级最高）
+	 * @param paramsPrefix
+	 */
+	setParamsPrefix: function (paramsPrefix) {
+		setParamsPrefix(paramsPrefix);
 	},
 	/**
 	 * 查询报表
@@ -68,7 +76,7 @@ report = {
 	 */
 	print: function (reportId) {
 		debugger;
-		reportPrint(reportId);
+		reportPrint(reportId,this.getReportServer());
 	},
 	/**
 	 * 报表设置预览
@@ -81,9 +89,9 @@ report = {
 	}
 };
 
-const d = new Report();
-d.query('123456');
-d.switch('123456', 'testswitch');
-d.print('123456');
-d.print('123456', true);
-d.preview('123456');
+// const d = new Report();
+// d.query('123456');
+// d.switch('123456', 'testswitch');
+// d.print('123456');
+// d.print('123456', true);
+// d.preview('123456');

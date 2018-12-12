@@ -4,9 +4,20 @@ import {
 	REPORT_FRAME_ID_PREFIX,
 	REPORT_SESSION_ID_NAME,
 	reportFrameIdSelector,
-	serializeJSON4Form
+	serializeJSON4Form,
+	trimPrefix
 } from './base';
 
+let paramsPrefix;
+
+/**
+ * 设置参数前缀
+ * @param prefix
+ */
+function setParamsPrefix(prefix) {
+	debugger;
+	paramsPrefix = prefix;
+}
 
 /**
  * 根据报表表单 id,报表服务地址 查询报表内容
@@ -16,7 +27,7 @@ import {
 function reportQuery(reportId, reportServer) {
 	debugger;
 	const params = serializeJSON4Form(reportId);
-	const url = reportUrl(reportServer, params);
+	const url = reportUrl(reportServer, params, paramsPrefix);
 	console.log(`报表实际访问地址：${url}`);
 	debugger;
 	setReportSession(reportId, reportServer, params);
@@ -44,20 +55,13 @@ function setReportSession(reportId, reportServer, params) {
 	// TODO: 2018/12/11 0011 16:07 校验查询条件发生变化才重新获取session
 	debugger;
 	params.op = OP_SESSION_ID;
-	let getSessionUrl = reportUrl(reportServer, params);
-	console.log(`获取session的url:${getSessionUrl}`);
-
-	// f(reportId, reportServer, params);
-	jsonp(reportId, reportServer, params);
-}
-
-function f(reportId, reportServer, params) {
-	$.ajax({
-		url: reportServer, type: 'post', data: params, complete: function (res) {
-			debugger;
-			console.log(`报表SessionID：${res.responseText}`);
-			reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, res.responseText);
-		}
+	params = trimPrefix(params, paramsPrefix);
+	$.getJSON(reportServer + '?callback=?', params, function (res) {
+		debugger;
+		let sessionID = res.sessionID;
+		console.log(`报表SessionID：${sessionID}`);
+		debugger;
+		reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, sessionID);
 	});
 }
 
@@ -68,6 +72,8 @@ function f(reportId, reportServer, params) {
  * @param params
  */
 function jsonp(reportId, reportServer, params) {
+	debugger;
+	params = trimPrefix(params);
 	$.ajax({
 		url: reportServer, type: 'post', data: params, dataType: 'jsonp', jsonp: 'callback', success: function (res) {
 			debugger;
@@ -77,20 +83,22 @@ function jsonp(reportId, reportServer, params) {
 			reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, res.sessionID);
 		}
 	});
+
 }
 
 /**
  * 获取报表实际请求地址
  * @param {String} reportServer 报表服务地址
  * @param {Object} params 请求参数
+ * @param {string} paramPrefix 请求参数前缀
  * @returns {String}
  */
-const reportUrl = (reportServer, params) => {
+const reportUrl = (reportServer, params, paramPrefix) => {
 	if (reportServer) {
-		return encodeURI(getUrl(reportServer, params));
+		return encodeURI(getUrl(reportServer, params, paramPrefix));
 	} else {
 		throw new Error('报表服务地址不能为空');
 	}
 };
 
-export {reportQuery, getReportSession, reportUrl};
+export {reportQuery, getReportSession, reportUrl, setParamsPrefix};

@@ -8,8 +8,10 @@
 	<title>ES6 Webpack Demo</title>
 </head>
 <script>
-	report.setReportServer('http://192.168.88.235:8083/WebReport/ReportServer');
-	// report.setReportServer('http://42.123.97.19:8086/WebReport/ReportServer');
+	debugger;
+	report.setParamsPrefix('params.');
+	// report.setReportServer('http://192.168.88.235:8083/WebReport/ReportServer');
+	report.setReportServer('http://42.123.97.19:8086/WebReport/ReportServer');
 </script>
 </html>
 <body style="height: 100%">
@@ -18,11 +20,11 @@
 <div class="div3">Hello World 测试less</div>
 <form id="reportForm123456" disabled>
 	<label for="1">报表名称</label>
-	<input id="1" name="reportlet" value="common/NBPH/OLD_INFORMATION.cpt">
+	<input id="1" name="params.reportlet" value="common/NBPH/OLD_INFORMATION.cpt">
 	<label for="2">年份</label>
-	<input id="2" name="year" value="2018">
+	<input id="2" name="params.year" value="2018">
 	<label for="3">机构</label>
-	<input id="3" name="userOrgName" value="贵州省卫生计生委" disabled>
+	<input id="3" name="params.userOrgName" value="贵州省卫生计生委" disabled>
 	<label for="4">用户名</label>
 	<input id="4" name="userName" value="gzadmin">
 	<label for="5">地区编码</label>
@@ -45,5 +47,8 @@
 	<div class="rep-param"></div>
 	<iframe id="reportFrame123456" name="reportFrame" class="rep-iframe" style="height: 400px"></iframe>
 </div>
+<script>
+
+</script>
 </body>
 

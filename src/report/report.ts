@@ -68,16 +68,16 @@ class Report implements IReport {
             reportFrameIdPrefix: '#reportFrame',
             reportSessionIdName: 'data-report-session'
         };
-        if (config.reportFormIdPrefix) {
+        if (config && config.reportFormIdPrefix) {
             defaultConfig.reportFormIdPrefix = config.reportFormParamPrefix;
         }
-        if (config.reportFormParamPrefix) {
+        if (config && config.reportFormParamPrefix) {
             defaultConfig.reportFormParamPrefix = config.reportFormParamPrefix;
         }
-        if (config.reportFrameIdPrefix) {
+        if (config && config.reportFrameIdPrefix) {
             defaultConfig.reportFrameIdPrefix = config.reportFrameIdPrefix;
         }
-        if (config.reportSessionIdName) {
+        if (config && config.reportSessionIdName) {
             defaultConfig.reportSessionIdName = config.reportSessionIdName;
         }
         this.config = defaultConfig;

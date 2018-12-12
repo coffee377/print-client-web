@@ -17,6 +17,12 @@ const OP_SESSION_ID = 'getSessionID';
 const REPORT_FORM_ID_PREFIX = '#reportForm';
 
 /**
+ * 报表Form 参数前缀前缀
+ * @type {string}
+ */
+const REPORT_FORM_PARAM_PREFIX = 'params.';
+
+/**
  * 报表Frame ID前缀
  * @type {string}
  */
@@ -26,10 +32,13 @@ const REPORT_FRAME_ID_PREFIX = '#reportFrame';
  * 获取Get请求详细地址
  * @param {String} url 请求地址
  * @param {Object} params 请求参数对象
+ * @param {string} paramPrefix 参数前缀
  * @returns {String}
  */
-function getUrl(url, params) {
+function getUrl(url, params, paramPrefix) {
 	let paramStr = '';
+	debugger;
+	params = trimPrefix(params, paramPrefix);
 	if (params) {
 		Object.keys(params).map((key, index, array) => {
 			let value = params[key] ? params[key] : '';
@@ -41,6 +50,27 @@ function getUrl(url, params) {
 		});
 	}
 	return paramStr !== '' ? `${url}?${paramStr}` : url;
+}
+
+/**
+ * 参数去前缀
+ * @param params  {Object} params 请求参数对象
+ * @param paramPrefix 参数名前缀
+ */
+function trimPrefix(params, paramPrefix) {
+	debugger;
+	if (params && paramPrefix) {
+		let map = {};
+		Object.keys(params).map((key) => {
+			let value = params[key] ? params[key] : '';
+			if (paramPrefix && key.match('^' + paramPrefix)) {
+				key = key.substring(paramPrefix.length);
+			}
+			map[key] = value;
+		});
+		return map;
+	}
+	return params;
 }
 
 /**
@@ -99,6 +129,7 @@ function reportFrameIdSelector(reportId) {
 }
 
 export {
-	REPORT_SESSION_ID_NAME, REPORT_FORM_ID_PREFIX, REPORT_FRAME_ID_PREFIX, OP_SESSION_ID,
-	getUrl, serializeJSON4Form, changeValue, reportFormIdSelector, reportFrameIdSelector
+	REPORT_SESSION_ID_NAME, REPORT_FORM_ID_PREFIX, REPORT_FORM_PARAM_PREFIX,
+	REPORT_FRAME_ID_PREFIX, OP_SESSION_ID,
+	getUrl, serializeJSON4Form, changeValue, reportFormIdSelector, reportFrameIdSelector, trimPrefix
 };
