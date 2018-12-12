@@ -1,30 +1,11 @@
 import './style.less';
-import 'print';
+import './base';
+import {reportQuery} from './query';
+import {reportPreview, reportPrint} from './print';
+import {changeValue, REPORT_FORM_ID_PREFIX} from './base';
+import {Report} from './report.ts';
 
-const REPORT_FRAME_ID = '#reportFrame';
-const REPORT_FORM_ID = '#reportForm';
 let _reportServer = null;
-
-/**
- * 获取Get请求详细地址
- * @param {String} url 请求地址
- * @param {Object} params 请求参数对象
- * @returns {String}
- */
-const getUrl = (url, params) => {
-	let paramStr = '';
-	if (params) {
-		Object.keys(params).map((key, index, array) => {
-			let value = params[key] ? params[key] : '';
-			if (index !== array.length - 1) {
-				paramStr += `${key}=${value}&`;
-			} else {
-				paramStr += `${key}=${value}`;
-			}
-		});
-	}
-	return paramStr !== '' ? `${url}?${paramStr}` : url;
-};
 
 /**
  * 获取配置的报表服务地址
@@ -41,69 +22,6 @@ const getSettingReportServer = () => {
 	return server;
 };
 
-/**
- * 获取报表实际请求地址
- * @param {Object} params 请求参数
- * @param {String} url 报表服务地址（可选）
- * @returns {String}
- */
-const getReportUrl = (params, url) => {
-	if (url) {
-		return encodeURI(getUrl(url, params));
-	} else {
-		/*如果报表服务地址为空，则根据用户设置进行获取*/
-		return encodeURI(getUrl(getSettingReportServer(), params));
-	}
-};
-
-/**
- * 表单数据序列化
- * @param selector jQuery 选择器
- * @returns {*|jQuery}
- */
-let getFormData = (selector) => {
-	debugger;
-	const data = $(selector).serializeJSON({checkboxUncheckedValue: 'false', parseBooleans: true});
-	console.log(JSON.stringify(data));
-	return data;
-};
-
-/**
- * 根据报表表单序列化为查询参数
- * @param {String} reportId 报表ID
- * @returns {Object} map
- */
-const serializeJSON = (reportId) => {
-	const _r = reportId ? $(REPORT_FORM_ID + reportId) : $(REPORT_FORM_ID);
-	return getFormData(_r);
-};
-
-/**
- * 根据报表表单 id 查询报表内容
- * @param {String} reportId 报表ID
- * @param {String} reportServer 报表服务地址（可选）
- */
-const queryReport = (reportId, reportServer) => {
-	debugger;
-	const _r = reportId ? $(REPORT_FRAME_ID + reportId) : $(REPORT_FRAME_ID);
-	const params = serializeJSON(reportId);
-	const url = getReportUrl(params, reportServer);
-	console.log(url);
-	//// TODO: 2018/12/11 0011 9:14 获取sessionId
-	_r.attr('src', url).addClass('bg-color');
-};
-
-/**
- * js 动态设置指定表单的报表路径
- * @param {String} reportlet 待切换报表路径
- * @param {String} reportId 报表ID
- */
-const switchReport = (reportlet, reportId) => {
-	debugger;
-	const _r = reportId ? $(REPORT_FORM_ID + reportId) : $(REPORT_FORM_ID);
-	_r.find('input[name=\'reportlet\']').val(reportlet);
-};
-
 if (window.report == null) {
 	window.report = {};
 }
@@ -116,45 +34,56 @@ report = {
 		debugger;
 		_reportServer = reportServer;
 	},
+	getReportServer: function () {
+		return _reportServer;
+	},
 	/**
 	 * 查询报表
 	 * @param reportId 报表ID
-	 * @param reportServer 报表服务地址
-	 * @see #queryReport
+	 * @param reportServer 报表服务地址（可选）
+	 * @see #reportQuery
 	 */
 	query: function (reportId, reportServer) {
 		debugger;
-		queryReport(reportId, reportServer);
+		if (reportServer) {
+			reportQuery(reportId, reportServer);
+		} else {
+			reportQuery(reportId, getSettingReportServer());
+		}
 	},
 	/**
 	 *
-	 * @param reportlet
 	 * @param reportId
-	 * @see switchReport
+	 * @param reportlet
+	 * @see changeValue
 	 */
-	switch: function (reportlet, reportId) {
+	switch: function (reportId, reportlet) {
+		const reportFormIdSelector = reportId ? $(REPORT_FORM_ID_PREFIX + reportId) : $(REPORT_FORM_ID_PREFIX);
+		changeValue('input[name=\'reportlet\']', reportlet, reportFormIdSelector);
+	},
+	/**
+	 * 打印报表
+	 * @param reportId 报表ID
+	 * @see reportPrint
+	 */
+	print: function (reportId) {
 		debugger;
-		switchReport(reportlet, reportId);
+		reportPrint(reportId);
+	},
+	/**
+	 * 报表设置预览
+	 * @param reportId 报表ID
+	 * @param reportServer 报表服务地址
+	 * @see reportPreview
+	 */
+	preview: function (reportId, reportServer) {
+		reportPreview(reportId, reportServer);
 	}
 };
 
-/**
- *
- * @param reportId
- * @param reportServer
- * @deprecated
- */
-window.reportQuery = function (reportId, reportServer) {
-	debugger;
-	queryReport(reportId, reportServer);
-};
-/**
- *
- * @param reportlet
- * @param reportId
- * @deprecated
- */
-window.reportSwitch = function (reportlet, reportId) {
-	debugger;
-	switchReport(reportlet, reportId);
-};
+const d = new Report();
+d.query('123456');
+d.switch('123456', 'testswitch');
+d.print('123456');
+d.print('123456', true);
+d.preview('123456');

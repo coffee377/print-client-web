@@ -9,6 +9,7 @@
 </head>
 <script>
 	report.setReportServer('http://192.168.88.235:8083/WebReport/ReportServer');
+	// report.setReportServer('http://42.123.97.19:8086/WebReport/ReportServer');
 </script>
 </html>
 <body style="height: 100%">
@@ -16,25 +17,33 @@
 <div class="div2">Hello World 测试scss</div>
 <div class="div3">Hello World 测试less</div>
 <form id="reportForm123456" disabled>
-	<input name="reportlet" value="common/NBPH/OLD_INFORMATION.cpt">
-	<input name="year" value="2018">
-	<input name="userOrgName" value="贵州省卫生计生委" disabled>
-	<input name="userName" value="gzadmin">
-	<input name="area_id" value="52">
-	<input name="countTime" value="">
-	<input name="userArea" value="52">
-	<input name="userOrgCode" value="520000000146">
-	<input name="quarter" value="3">
+	<label for="1">报表名称</label>
+	<input id="1" name="reportlet" value="common/NBPH/OLD_INFORMATION.cpt">
+	<label for="2">年份</label>
+	<input id="2" name="year" value="2018">
+	<label for="3">机构</label>
+	<input id="3" name="userOrgName" value="贵州省卫生计生委" disabled>
+	<label for="4">用户名</label>
+	<input id="4" name="userName" value="gzadmin">
+	<label for="5">地区编码</label>
+	<input id="5" name="area_id" value="52">
+	<label for="6">统计时间</label>
+	<input id="6" name="countTime" value="">
+	<label for="7">用户地区编码</label>
+	<input id="7" name="userArea" value="52">
+	<label for="8">用户机构编码</label>
+	<input id="8" name="userOrgCode" value="520000000146">
+	<label for="9">季度</label>
+	<input id="9" name="quarter" value="3">
 </form>
-<button id="query" onclick="reportQuery('123456')">原始查询</button>
-<button id="queryNew" onclick="report.query('123456')">新查询</button>
-<button id="query2" onclick="reportSwitch('common.cpt','123456')">原始切换报表</button>
-<button id="query2New" onclick="report.switch('common.cpt','123456')">新切换报表</button>
-<button id="query3" onclick="test1()">测试服务地址</button>
-<button id="query4" onclick="test2()">测试API地址</button>
+<button id="query" onclick="report.query('123456')">查询测试</button>
+<button id="switch" onclick="report.switch('123456','modified.cpt')">切换报表测试</button>
+<button id="print" onclick="report.print('123456')">打印测试</button>
+<button id="quietPrint" onclick="report.print('123456')">静默打印测试</button>
+<button id="preview" onclick="report.preview('123456',report.getReportServer())">预览测试</button>
 <div class="rep" style="height: 100%">
 	<div class="rep-param"></div>
-	<iframe id="reportFrame123456" name="reportFrame" class="rep-iframe" src=""></iframe>
+	<iframe id="reportFrame123456" name="reportFrame" class="rep-iframe" style="height: 400px"></iframe>
 </div>
 </body>
 
