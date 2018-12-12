@@ -117,6 +117,14 @@ module.exports = {
 			// 		{loader: 'expose-loader', options: '$'}
 			// 	]
 			// }
+			{
+				test: /\.tsx?$/,
+				include: paths.appSrc,
+				exclude: paths.appNodeModules,
+				use: {
+					loader: 'ts-loader'
+				}
+			},
 		]
 	},
 	plugins: [
