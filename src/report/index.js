@@ -2,7 +2,7 @@ import './style.less';
 import './base';
 import {reportQuery,setParamsPrefix} from './query';
 import {reportPreview, reportPrint} from './print';
-import {changeValue, REPORT_FORM_ID_PREFIX} from './base';
+import {changeValue, REPORT_FORM_ID_PREFIX,reportFormIdSelector} from './base';
 import {Report} from './report.ts';
 
 let _reportServer = null;
@@ -66,8 +66,7 @@ report = {
 	 * @see changeValue
 	 */
 	switch: function (reportId, reportlet) {
-		const reportFormIdSelector = reportId ? $(REPORT_FORM_ID_PREFIX + reportId) : $(REPORT_FORM_ID_PREFIX);
-		changeValue('input[name=\'reportlet\']', reportlet, reportFormIdSelector);
+		changeValue('input[name$=\'reportlet\']', reportlet, reportFormIdSelector(reportId));
 	},
 	/**
 	 * 打印报表

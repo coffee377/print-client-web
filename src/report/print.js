@@ -6,17 +6,18 @@ import {getReportSession} from './query';
  */
 const REPORT_SOCKET_URL = 'http://localhost:10227';
 
-const EVENT_NGINX_PROXY = 'nginxProxy';
-const EVENT_ALIVE_CHECKING = 'aliveChecking';
+const EVENT_TYPE_CHECKING = 'typeChecking';
 const EVENT_GET_CONFIG_DATA = 'getConfigData';
 const EVENT_SET_CONFIG_DATA = 'setConfigData';
 const EVENT_BEFORE_PRINT = 'beforePrint';
-const EVENT_START_PRINT = 'startPrint';
+const EVENT_PRINT = 'print';
+const EVENT_PREVIEW = 'preview';
 const EVENT_AFTER_PRINT = 'afterPrint';
 const EVENT_ERROR_OCCURS = 'errorOccurs';
 
 let isLoadingPrint = false;
 let printSocket;
+let printSocketId;
 
 /**
  * Module dependencies.
@@ -38,9 +39,7 @@ function reportPrint(reportId, reportServer, quietPrint = true) {
 	//点击打印时的实际配置
 	let config = {
 		sessionID: session,
-		printerName: '',
 		quietPrint: quietPrint,
-		orientation: 1,
 		url: reportServer
 	};
 	if (printSocket == null) {
@@ -67,37 +66,33 @@ function reportPrint(reportId, reportServer, quietPrint = true) {
 	// }
 	// if (isLoadingPrint) {
 	printSocket.on('connect', function () {
-		console.warn(`与打印客户端[${printSocket.id}]建立连接`);
+		printSocketId = printSocket.id;
+		console.warn(`与打印客户端[${printSocketId}]建立连接`);
 	});
 	printSocket.on('disconnect', function () {
-		console.warn(`与打印客户端[${printSocket.id}]失去连接`);
+		console.warn(`与打印客户端[${printSocketId}]失去连接`);
 	});
-	printSocket.emit(EVENT_GET_CONFIG_DATA, JSON.stringify({quietPrint: quietPrint}));
-	printSocket.on(EVENT_GET_CONFIG_DATA, function (data) {
-		debugger;
-		const msg = JSON.stringify(data);
-	});
+	/*获取配置*/
+	printSocket.emit(EVENT_TYPE_CHECKING);
 	printSocket.on(EVENT_BEFORE_PRINT, function () {
 		// printSocket.destroy();
+		alert('打印之前要干的事');
+		printSocket.emit(EVENT_BEFORE_PRINT, JSON.stringify({quietPrint: quietPrint}));
 	});
-	printSocket.on(EVENT_AFTER_PRINT, function () {
-
-	});
-
-	printSocket.on(EVENT_START_PRINT, function (data) {
-		if (quietPrint) {
-			if (config.sessionID) {
-				config.url += `?sessionID=${config.sessionID}&op=fr_applet&cmd=print`;
-				print(reportId, config);
+	printSocket.on(EVENT_PRINT, function (data) {
+		if (config.sessionID) {
+			config.url += `?sessionID=${config.sessionID}&op=fr_applet&cmd=print`;
+			for (let configKey in config) {
+				data[configKey] = config[configKey];
 			}
-		} else {
-			// TODO: 2018/12/12 0012 13:55 显示对话框代码
-			config.url += `?sessionID=${config.sessionID}&op=fr_print&cmd=no_client&preview=true`;
-			// if (config.sessionID) {
-			// 	window.open(`${reportServer}?op=fr_print&cmd=no_client&preview=true&sessionID=${config.sessionID}`, 'Preview');
-			// }
-			reportPreview(reportId, reportServer);
+			print(data);
 		}
+	});
+	printSocket.on(EVENT_AFTER_PRINT, function (data) {
+		alert('打印之后要干的事' + JSON.stringify(data));
+	});
+	printSocket.on(EVENT_PREVIEW, function (data) {
+		alert('打印预览界面' + JSON.stringify(data));
 	});
 	printSocket.on(EVENT_ERROR_OCCURS, function (data) {
 		alert('发生错误：' + JSON.stringify(data));
@@ -106,11 +101,10 @@ function reportPrint(reportId, reportServer, quietPrint = true) {
 
 /**
  * 打印
- * @param reportId 报表ID
  * @param config 打印配置
  */
-function print(reportId, config) {
-	printSocket.emit(EVENT_START_PRINT, JSON.stringify(config));
+function print(config) {
+	printSocket.emit(EVENT_PRINT, JSON.stringify(config));
 }
 
 /**
