@@ -51,6 +51,9 @@ function getServedPath() {
 }
 
 module.exports = {
+	resolveApp: function (path) {
+		return resolveApp(path);
+	},
 	dotEnv: resolveApp('.env'),
 	appPath: resolveApp('.'),
 	appDist: resolveApp('dist'),

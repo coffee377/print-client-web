@@ -1,5 +1,26 @@
 import io from 'socket.io-client';
 import {getReportSession} from './query';
+import {SHOW_PRINT_TIP} from './base';
+// import {message} from 'antd';
+// message.config({
+// 	top: 100,
+// 	duration: 2,
+// 	maxCount: 3,
+// });
+// const printing = () => {
+// 	message.loading('正在打印...', 3);
+// 	// Dismiss manually and asynchronously
+// 	// setTimeout(hide, 2500);
+// };
+//
+// const printSuccess = () => {
+// 	message.success('打印完成', 2);
+// };
+//
+// const printError = (msg) => {
+// 	message.error(msg, 2);
+// };
+
 
 /**
  * Module variable.
@@ -16,8 +37,8 @@ const EVENT_AFTER_PRINT = 'afterPrint';
 const EVENT_ERROR_OCCURS = 'errorOccurs';
 
 let isLoadingPrint = false;
-let printSocket;
-let printSocketId;
+let printSocket = io(REPORT_SOCKET_URL);
+let printSocketId = printSocket.id;
 
 /**
  * Module dependencies.
@@ -25,78 +46,70 @@ let printSocketId;
 
 
 /**
- * 根据报表ID 打印报表
+ * 根据报表ID 执行报表
  * @param {String} reportId 报表ID
  * @param {String} reportServer 报表服务地址
  * @param {boolean} quietPrint 是否静默打印
  */
-function reportPrint(reportId, reportServer, quietPrint = true) {
+function reportPrintOperation(reportId, reportServer, quietPrint = true) {
 	debugger;
 	const session = getReportSession(reportId);
 	if (!session) {
 		return;
 	}
 	//点击打印时的实际配置
-	let config = {
-		sessionID: session,
-		quietPrint: quietPrint,
-		url: reportServer
-	};
+	let config = {sessionID: session, quietPrint: quietPrint, url: reportServer};
 	if (printSocket == null) {
 		printSocket = io(REPORT_SOCKET_URL);
 	} else {
 		printSocket.removeAllListeners();
-		if (!printSocket.connected) {
-			// alert('PrintPlus未启动');
-			// startPrintPlus();
-			printSocket.connect();
-		}
 	}
-
-	// if (printSocket.connected) {
-	// 	isLoadingPrint = true;
-	// 	alert('PrintPlus启动成功');
-	// } else {
-	// 	debugger;
-	// 	// printSocket.destroy();
-	// 	// printSocket = null;
-	// 	debugger;
-	// 	isLoadingPrint = false;
-	// 	alert('PrintPlus启动失败');
-	// }
-	// if (isLoadingPrint) {
-	printSocket.on('connect', function () {
-		printSocketId = printSocket.id;
-		console.warn(`与打印客户端[${printSocketId}]建立连接`);
-	});
-	printSocket.on('disconnect', function () {
-		console.warn(`与打印客户端[${printSocketId}]失去连接`);
-	});
-	/*获取配置*/
-	printSocket.emit(EVENT_TYPE_CHECKING);
-	printSocket.on(EVENT_BEFORE_PRINT, function () {
-		// printSocket.destroy();
-		alert('打印之前要干的事');
-		printSocket.emit(EVENT_BEFORE_PRINT, JSON.stringify({quietPrint: quietPrint}));
-	});
-	printSocket.on(EVENT_PRINT, function (data) {
-		if (config.sessionID) {
-			config.url += `?sessionID=${config.sessionID}&op=fr_applet&cmd=print`;
-			for (let configKey in config) {
-				data[configKey] = config[configKey];
+	isLoadingPrint = printSocket.connected;
+	if (!isLoadingPrint) {
+		alert('PrintPlus未启动');
+		startPrintPlus();
+	}
+	if (isLoadingPrint) {
+		printSocket.on('connect', function () {
+			printSocketId = printSocket.id;
+			console.warn(`与打印客户端[${printSocketId}]建立连接`);
+		});
+		printSocket.on('disconnect', function () {
+			debugger;
+			console.warn(`与打印客户端[${printSocketId}]失去连接`);
+		});
+		/*获取配置*/
+		printSocket.emit(EVENT_TYPE_CHECKING);
+		printSocket.on(EVENT_BEFORE_PRINT, function () {
+			if (SHOW_PRINT_TIP && quietPrint) {
+				alert('开始打印');
+				// printing();
 			}
-			print(data);
-		}
-	});
-	printSocket.on(EVENT_AFTER_PRINT, function (data) {
-		alert('打印之后要干的事' + JSON.stringify(data));
-	});
-	printSocket.on(EVENT_PREVIEW, function (data) {
-		alert('打印预览界面' + JSON.stringify(data));
-	});
-	printSocket.on(EVENT_ERROR_OCCURS, function (data) {
-		alert('发生错误：' + JSON.stringify(data));
-	});
+			printSocket.emit(EVENT_BEFORE_PRINT, JSON.stringify(config));
+		});
+		printSocket.on(EVENT_PRINT, function (data) {
+			if (config.sessionID) {
+				config.url += `?sessionID=${config.sessionID}&op=fr_applet&cmd=print`;
+				for (let configKey in config) {
+					data[configKey] = config[configKey];
+				}
+				print(data);
+			}
+		});
+		printSocket.on(EVENT_AFTER_PRINT, function (data) {
+			if (SHOW_PRINT_TIP && quietPrint) {
+				alert('打印结束');
+				// printSuccess();
+			}
+		});
+		printSocket.on(EVENT_PREVIEW, function (data) {
+			reportPreview(reportId, data);
+			console.log('打印预览界面' + JSON.stringify(data));
+		});
+		printSocket.on(EVENT_ERROR_OCCURS, function (data) {
+			alert('发生错误：' + JSON.stringify(data));
+		});
+	}
 }
 
 /**
@@ -108,28 +121,39 @@ function print(config) {
 }
 
 /**
- * 启动打印客户端
+ * 根据报表ID 预览设置
+ * @param reportId 报表ID
+ * @param previewConfig 打印预览数据
  */
-function startPrintPlus() {
-	console.log('The PrintPlus client is starting');
-
+function reportPreview(reportId, previewConfig) {
+	debugger;
+	window.open(previewConfig['previewUrl'], `Preview${reportId}`);
 }
 
 /**
- * 根据报表ID 预览设置
- * @param reportId 报表ID
- * @param reportServer 报表服务地址
+ * 启动打印客户端
+ * @returns {boolean} 启动客户端是否成功
  */
-function reportPreview(reportId, reportServer) {
+function startPrintPlus() {
+	// TODO: 2018/12/14 0014 9:07 启动客户端
 	debugger;
-	const reportSession = getReportSession(reportId);
-	if (reportSession) {
-		window.open(`${reportServer}?op=fr_print&cmd=no_client&preview=true&sessionID=${reportSession}`, 'Preview');
+	printSocket.connect();
+	if (printSocket && printSocket.connected) {
+		console.log('The PrintPlus client is started');
+		alert('PrintPlus启动成功');
+		isLoadingPrint = true;
+	} else {
+		debugger;
+		// printSocket.destroy();
+		// printSocket = null;
+		isLoadingPrint = false;
+		console.warn('The PrintPlus client boot failed');
+		alert('PrintPlus启动失败');
 	}
 }
 
 /**
  * Module exports.
  */
-export {reportPrint, reportPreview};
+export {reportPrintOperation, reportPreview};
 

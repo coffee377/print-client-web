@@ -1,6 +1,7 @@
 import {
 	getUrl,
 	OP_SESSION_ID,
+	REPORT_FORM_PARAM_PREFIX,
 	REPORT_FRAME_ID_PREFIX,
 	REPORT_SESSION_ID_NAME,
 	reportFrameIdSelector,
@@ -8,16 +9,6 @@ import {
 	trimPrefix
 } from './base';
 
-let paramsPrefix;
-
-/**
- * 设置参数前缀
- * @param prefix
- */
-function setParamsPrefix(prefix) {
-	debugger;
-	paramsPrefix = prefix;
-}
 
 /**
  * 根据报表表单 id,报表服务地址 查询报表内容
@@ -27,7 +18,7 @@ function setParamsPrefix(prefix) {
 function reportQuery(reportId, reportServer) {
 	debugger;
 	const params = serializeJSON4Form(reportId);
-	const url = reportUrl(reportServer, params, paramsPrefix);
+	const url = reportUrl(reportServer, params, REPORT_FORM_PARAM_PREFIX);
 	console.log(`报表实际访问地址：${url}`);
 	debugger;
 	setReportSession(reportId, reportServer, params);
@@ -55,7 +46,7 @@ function setReportSession(reportId, reportServer, params) {
 	// TODO: 2018/12/11 0011 16:07 校验查询条件发生变化才重新获取session
 	debugger;
 	params.op = OP_SESSION_ID;
-	params = trimPrefix(params, paramsPrefix);
+	params = trimPrefix(params, REPORT_FORM_PARAM_PREFIX);
 	$.getJSON(reportServer + '?callback=?', params, function (res) {
 		debugger;
 		let sessionID = res.sessionID;
@@ -101,4 +92,4 @@ const reportUrl = (reportServer, params, paramPrefix) => {
 	}
 };
 
-export {reportQuery, getReportSession, reportUrl, setParamsPrefix};
+export {reportQuery, getReportSession, reportUrl};

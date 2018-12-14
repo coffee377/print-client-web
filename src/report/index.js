@@ -1,54 +1,72 @@
+import '../../public/html/report.html';
 import './style.less';
 import './base';
-import {reportQuery,setParamsPrefix} from './query';
-import {reportPreview, reportPrint} from './print';
-import {changeValue, REPORT_FORM_ID_PREFIX,reportFormIdSelector} from './base';
-import {Report} from './report.ts';
-
-let _reportServer = null;
-
-/**
- * 获取配置的报表服务地址
- * @returns {String}
- */
-const getSettingReportServer = () => {
-	let server;
-	debugger;
-	if (_reportServer) {
-		server = _reportServer;
-	} else {
-		throw new Error('请设置报表服务地址');
-	}
-	return server;
-};
+import {reportQuery} from './query';
+import {reportPreview, reportPrintOperation} from './print';
+import {
+	changeValue,
+	REPORT_FORM_ID_PREFIX,
+	REPORT_FORM_PARAM_PREFIX,
+	REPORT_FRAME_ID_PREFIX,
+	REPORT_SERVER,
+	REPORT_SESSION_ID_NAME,
+	reportFormIdSelector,
+	setFormIdPrefix,
+	setFormParamPrefix,
+	setFrameIdPrefix,
+	setReportServer,
+	setSessionIdName,
+	setShowPrintTip
+} from './base';
 
 if (window.report == null) {
 	window.report = {};
 }
 report = {
-	/**
-	 * 设置报表服务器地址（优先级最高）
-	 * @param reportServer
-	 */
-	setReportServer: function (reportServer) {
+	options: function (config) {
 		debugger;
-		_reportServer = reportServer;
-
+		if (config['showPrintTip']) {
+			setShowPrintTip(config['showPrintTip']);
+		}
+		if (config['reportServer']) {
+			setReportServer(config['reportServer']);
+		}
+		if (config['sessionIdName']) {
+			setSessionIdName(config['sessionIdName']);
+		}
+		if (config['formIdPrefix']) {
+			setFormIdPrefix(config['formIdPrefix']);
+		}
+		if (config['formParamPrefix']) {
+			setFormParamPrefix(config['formParamPrefix']);
+		}
+		if (config['frameIdPrefix']) {
+			setFrameIdPrefix(config['frameIdPrefix']);
+		}
 	},
 	getReportServer: function () {
-		return _reportServer;
+		if (!REPORT_SERVER) {
+			throw new Error('请设置报表服务地址');
+		}
+		return REPORT_SERVER;
 	},
-	/**
-	 * 设置表单参数前缀（优先级最高）
-	 * @param paramsPrefix
-	 */
-	setParamsPrefix: function (paramsPrefix) {
-		setParamsPrefix(paramsPrefix);
+	getSessionIdName: function () {
+		return REPORT_SESSION_ID_NAME;
 	},
+	getFormIdPrefix: function () {
+		return REPORT_FORM_ID_PREFIX;
+	},
+	getFormParamPrefix: function () {
+		return REPORT_FORM_PARAM_PREFIX;
+	},
+	getFrameIdPrefix: function () {
+		return REPORT_FRAME_ID_PREFIX;
+	},
+
 	/**
 	 * 查询报表
 	 * @param reportId 报表ID
-	 * @param reportServer 报表服务地址（可选）
+	 * @param reportServer 报表服务地址（可选），无时获取全局配置 reportServer
 	 * @see #reportQuery
 	 */
 	query: function (reportId, reportServer) {
@@ -56,13 +74,14 @@ report = {
 		if (reportServer) {
 			reportQuery(reportId, reportServer);
 		} else {
-			reportQuery(reportId, getSettingReportServer());
+			reportQuery(reportId, this.getReportServer());
 		}
 	},
+
 	/**
 	 *
-	 * @param reportId
-	 * @param reportlet
+	 * @param reportId 报表ID
+	 * @param reportlet 切换后报表的名称
 	 * @see changeValue
 	 */
 	switch: function (reportId, reportlet) {
@@ -70,21 +89,31 @@ report = {
 	},
 	/**
 	 * 打印报表
-	 * @param reportId 报表ID
+	 * @param {String} reportId 报表ID
+	 * @param {String} reportServer 报表服务地址(可选)，无时获取全局配置
 	 * @see reportPrint
 	 */
-	print: function (reportId) {
+	print: function (reportId, reportServer = null) {
 		debugger;
-		reportPrint(reportId,this.getReportServer());
+		if (reportServer) {
+			reportPrintOperation(reportId, reportServer);
+		} else {
+			reportPrintOperation(reportId, this.getReportServer());
+		}
 	},
 	/**
 	 * 报表设置预览
 	 * @param reportId 报表ID
-	 * @param reportServer 报表服务地址
+	 * @param reportServer 报表服务地址(可选)，无时获取全局配置
 	 * @see reportPreview
 	 */
-	preview: function (reportId, reportServer) {
-		reportPreview(reportId, reportServer);
+	preview: function (reportId, reportServer = null) {
+		debugger;
+		if (reportServer) {
+			reportPrintOperation(reportId, reportServer, false);
+		} else {
+			reportPrintOperation(reportId, this.getReportServer(), false);
+		}
 	}
 };
 

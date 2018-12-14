@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
 	<!-- jquery(必须)，版本自选,注意版本兼容问题 -->
-	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="../js/jquery-3.2.1.min.js"></script>
 	<!-- 表单序列化插件（必须）-->
-	<script src="js/jquery.serializejson.js"></script>
+	<script src="../js/jquery.serializejson.js"></script>
 	<title>ES6 Webpack Demo</title>
 </head>
 <script>
@@ -14,7 +14,6 @@
 	/*初始化配置*/
 	report.options({
 		reportServer: 'http://42.123.97.19:8086/WebReport/ReportServer',//（必须）全局配置，在所有操作中未指定报表服务时，会调用此地址
-		showPrintTip: true,//(可选),显示打印提示，默认false（目前不建议使用）
 		sessionIdName: 'data-report-session-test',//(可选)报表SessionID属性名称，默认“data-report-session”
 		formIdPrefix: '#reportForm_',//(可选)报表表单ID前缀，默认“#reportForm”
 		formParamPrefix: 'params.',//(可选)表单参数前缀，默认无,若此参数为空且表单参数含有前缀的话，内部处理器将不会处理，报表可能会无法访问
@@ -28,9 +27,6 @@
 </script>
 </html>
 <body style="height: 100%">
-<div class="div1">Hello World 测试css</div>
-<div class="div2">Hello World 测试scss</div>
-<div class="div3">Hello World 测试less</div>
 <!-- 表单ID说明
 1. id ['formIdPrefix'] + 'reportID'
 2. 表单元素 name ['formParamPrefix'] + 'name' ,有无前缀可混合使用，内部处理是只处理含有前缀的参数
