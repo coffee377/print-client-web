@@ -1,16 +1,12 @@
 'use strict';
-import merge from 'webpack-merge';
-
-import paths from './config/paths';
-
-import common from './webpack.common.js';
-
-import webpack from 'webpack';
-
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-
 const env = 'development';
 process.env.NODE_ENV = env;
+
+const merge = require('webpack-merge');
+const paths = require('./config/paths');
+const common = require('./webpack.common.js');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
 	mode: env,

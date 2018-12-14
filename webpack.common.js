@@ -1,17 +1,13 @@
 'use strict';
 
-import paths from './config/paths';
-
-import CleanWebpackPlugin from 'clean-webpack-plugin';
-
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
-import autoPreFixer from 'autoprefixer';
-
-const AutoPreFixer = autoPreFixer();
+const path = require('path');
+const paths = require('./config/paths');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const AutoPreFixer = require('autoprefixer')();
 
 const NODE_ENV = process.env.NODE_ENV;
-
 if (!NODE_ENV) {
 	throw new Error(
 		'The NODE_ENV environment variable is required but was not specified.'

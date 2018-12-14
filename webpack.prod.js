@@ -1,18 +1,13 @@
 'use strict';
-import paths from './config/paths';
-
-import merge from 'webpack-merge';
-
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-
-import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-
-import common from './webpack.common.js';
-
 const env = 'production';
 process.env.NODE_ENV = env;
+
+const paths = require('./config/paths');
+const merge = require('webpack-merge');
+const common = require('./webpack.common.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(common, {
 	mode: env,
