@@ -1,4 +1,5 @@
 import '../../public/html/report.html';
+import '../common/style1.css';
 import './style.less';
 import './base';
 import {reportQuery} from './query';
