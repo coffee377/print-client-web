@@ -15,18 +15,22 @@
 	"author": "coffee377",
 	"license": "ISC",
 	"devDependencies": {
-		"@babel/core": "^7.1.2",
+		"@babel/core": "^7.2.0",
+		"@babel/polyfill": "^7.0.0",
 		"@babel/preset-env": "^7.2.0",
 		"@babel/preset-react": "^7.0.0",
 		"autoprefixer": "^9.3.1",
+		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.4",
 		"babel-plugin-transform-remove-console": "^6.9.4",
+		"babel-polyfill": "^6.26.0",
 		"clean-webpack-plugin": "^0.1.19",
 		"copy-webpack-plugin": "^4.6.0",
 		"css-loader": "^1.0.1",
 		"cssnano": "^4.1.7",
 		"eslint": "^5.8.0",
 		"eslint-loader": "^2.1.1",
+		"eslint-plugin-react": "^7.11.1",
 		"file-loader": "^2.0.0",
 		"html-webpack-plugin": "^3.2.0",
 		"less": "^3.8.1",
@@ -48,10 +52,11 @@
 	},
 	"dependencies": {
 		"antd": "^3.11.2",
+		"lodash": "^4.17.11",
+		"moment": "^2.23.0",
 		"react": "^16.6.3",
 		"react-dom": "^16.6.3",
-		"socket.io-client": "^2.2.0",
-		"moment": "latest"
+		"socket.io-client": "^2.2.0"
 	},
 	"browserslist": [
 		"defaults",

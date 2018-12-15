@@ -77,23 +77,18 @@ module.exports = {
 				include: paths.appSrc,
 				exclude: paths.appNodeModules
 			},
-			// {
-			// 	enforce: 'pre',
-			// 	test: /\.jsx?$/,
-			// 	include: paths.appSrc,
-			// 	exclude: paths.appNodeModules,
-			// 	loader: 'eslint-loader',
-			// },
+			{
+				enforce: 'pre',
+				test: /\.jsx?$/,
+				include: paths.appSrc,
+				exclude: paths.appNodeModules,
+				loader: 'eslint-loader',
+			},
 			{
 				test: /\.jsx?$/,
 				include: paths.appSrc,
 				exclude: paths.appNodeModules,
-				// use: {
 				loader: 'babel-loader',
-				// options: {
-				// 	presets: ['@babel/preset-env','env','react']
-				// }
-				// }
 			},
 			/*用于HTML页面热更新*/
 			{
@@ -111,14 +106,6 @@ module.exports = {
 					}
 				]
 			},
-			// //暴露$和jQuery到全局
-			// {
-			// 	test: require.resolve('jquery'),
-			// 	use: [
-			// 		{loader: 'expose-loader', options: 'jQuery'},
-			// 		{loader: 'expose-loader', options: '$'}
-			// 	]
-			// }
 			{
 				test: /\.tsx?$/,
 				include: paths.appSrc,

@@ -39,7 +39,6 @@ module.exports = merge(common, {
 		// }),
 		new HtmlWebpackPlugin({
 			template: paths.resolveApp('public/html/app.html'),
-			inject: 'head'
 		}),
 		new CopyWebpackPlugin([
 			{

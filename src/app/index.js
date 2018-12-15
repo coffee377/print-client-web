@@ -7,11 +7,9 @@ class App extends Component {
 
 	render() {
 		return (
-			<p>render</p>
+			<p>render2</p>
 		);
 	}
 }
 
 ReactDOM.render(<App/>, document.getElementById('root'));
-// ReactDOM.render(<div>React Test</div>, document.body);
-// document.write('Hello Webpack');
