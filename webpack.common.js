@@ -42,6 +42,9 @@ module.exports = {
 	externals: {
 		'jquery': 'window.jQuery'
 	},
+	resolve: {
+		extensions: ['.js', '.jsx', '.css', '.less', '.sass', '.html']
+	},
 	module: {
 		rules: [
 			{
@@ -82,7 +85,15 @@ module.exports = {
 				test: /\.jsx?$/,
 				include: paths.appSrc,
 				exclude: paths.appNodeModules,
-				loader: 'eslint-loader',
+				// loader: 'eslint-loader',
+				use: [
+					{
+						loader: 'eslint-loader',
+						options: {
+							fix: true
+						}
+					}
+				]
 			},
 			{
 				test: /\.jsx?$/,
