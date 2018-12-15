@@ -29,13 +29,13 @@ module.exports = merge(common, {
 	plugins: [
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-		new HtmlWebpackPlugin({
-			template: paths.resolveApp("public/index.html"),
-			inject: 'head'
-		}),
 		// new HtmlWebpackPlugin({
-		// 	template: paths.resolveApp("public/html/report.html"),
+		// 	template: paths.resolveApp("public/index.html"),
 		// 	inject: 'head'
 		// }),
+		new HtmlWebpackPlugin({
+			template: paths.resolveApp("public/html/app.html"),
+			inject: 'head'
+		}),
 	]
 });

@@ -30,8 +30,8 @@ const cssExtractLoader = () => {
 module.exports = {
 	entry: {
 		app: './src/app/index',
-		common: './src/common/index',
-		report: './src/report/index'
+		// common: './src/common/index',
+		// report: './src/report/index'
 	},
 	output: {
 		publicPath: paths.publicPath,
@@ -77,22 +77,23 @@ module.exports = {
 				include: paths.appSrc,
 				exclude: paths.appNodeModules
 			},
+			// {
+			// 	enforce: 'pre',
+			// 	test: /\.jsx?$/,
+			// 	include: paths.appSrc,
+			// 	exclude: paths.appNodeModules,
+			// 	loader: 'eslint-loader',
+			// },
 			{
-				enforce: 'pre',
-				test: /\.js$/,
-				exclude: /node_modules/,
-				loader: 'eslint-loader',
-			},
-			{
-				test: /\.js$/,
+				test: /\.jsx?$/,
 				include: paths.appSrc,
 				exclude: paths.appNodeModules,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ['@babel/preset-env']
-					}
-				}
+				// use: {
+				loader: 'babel-loader',
+				// options: {
+				// 	presets: ['@babel/preset-env','env','react']
+				// }
+				// }
 			},
 			/*用于HTML页面热更新*/
 			{

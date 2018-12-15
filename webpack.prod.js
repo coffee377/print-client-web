@@ -20,37 +20,32 @@ module.exports = merge(common, {
 			},
 			canPrint: true
 		}),
-		new HtmlWebpackPlugin({
-			template: paths.appHtml,
-			favicon: './public/favicon.ico',
-			minify: {
-				// removeComments: true,
-				// collapseWhitespace: true,
-				// removeRedundantAttributes: true,
-				// useShortDoctype: true,
-				// removeEmptyAttributes: true,
-				// removeStyleLinkTypeAttributes: true,
-				// keepClosingSlash: true,
-				// minifyJS: true,
-				// minifyCSS: true,
-				// minifyURLs: true
-			},
-			inject: 'head'
-		}),
 		// new HtmlWebpackPlugin({
-		// 	template: paths.resolveApp("public/html/report.html"),
+		// 	template: paths.appHtml,
 		// 	favicon: './public/favicon.ico',
+		// 	minify: {
+		// 		// removeComments: true,
+		// 		// collapseWhitespace: true,
+		// 		// removeRedundantAttributes: true,
+		// 		// useShortDoctype: true,
+		// 		// removeEmptyAttributes: true,
+		// 		// removeStyleLinkTypeAttributes: true,
+		// 		// keepClosingSlash: true,
+		// 		// minifyJS: true,
+		// 		// minifyCSS: true,
+		// 		// minifyURLs: true
+		// 	},
 		// 	inject: 'head'
 		// }),
+		new HtmlWebpackPlugin({
+			template: paths.resolveApp('public/html/app.html'),
+			inject: 'head'
+		}),
 		new CopyWebpackPlugin([
 			{
 				from: paths.appPublic,
 				to: paths.appDist
 			},
-			// {
-			// 	from: path.resolve(__dirname, '../src/main.js'),
-			// 	to: path.resolve(__dirname, '../build')
-			// }
 		], {
 			ignore: [paths.appHtml],
 			copyUnmodified: true

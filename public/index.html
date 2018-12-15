@@ -18,7 +18,7 @@
 		sessionIdName: 'data-report-session-test',//(可选)报表SessionID属性名称，默认“data-report-session”
 		formIdPrefix: '#reportForm_',//(可选)报表表单ID前缀，默认“#reportForm”
 		formParamPrefix: 'params.',//(可选)表单参数前缀，默认无,若此参数为空且表单参数含有前缀的话，内部处理器将不会处理，报表可能会无法访问
-		frameIdPrefix: '#reportFrame_',//(可选)报表表单ID前缀，默认“#reportFrame”
+		frameIdPrefix: '#reportFrame_',//(可选)报表frame ID 前缀，默认“#reportFrame”
 	});
 	const v1 = report.getReportServer();
 	const v2 = report.getSessionIdName();
