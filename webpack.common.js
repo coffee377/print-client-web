@@ -55,8 +55,7 @@ module.exports = {
 						plugins: [AutoPreFixer]
 					}
 				}],
-				include: paths.appSrc,
-				exclude: paths.appNodeModules
+				include: [paths.appSrc, paths.resolveApp('node_modules/antd')],
 			},
 			{
 				test: /\.less$/,
@@ -65,9 +64,8 @@ module.exports = {
 					options: {
 						plugins: [AutoPreFixer]
 					}
-				}, 'less-loader'],
-				include: paths.appSrc,
-				exclude: paths.appNodeModules
+				}, {loader: 'less-loader', options: {javascriptEnabled: true}}],
+				include: [paths.appSrc, paths.resolveApp('node_modules/antd')],
 			},
 			{
 				test: /\.(sa|sc)ss$/,
@@ -85,7 +83,6 @@ module.exports = {
 				test: /\.jsx?$/,
 				include: paths.appSrc,
 				exclude: paths.appNodeModules,
-				// loader: 'eslint-loader',
 				use: [
 					{
 						loader: 'eslint-loader',
@@ -97,7 +94,7 @@ module.exports = {
 			},
 			{
 				test: /\.jsx?$/,
-				include: paths.appSrc,
+				include: [paths.appSrc],
 				exclude: paths.appNodeModules,
 				loader: 'babel-loader',
 			},
