@@ -3,99 +3,16 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-	<!-- jquery(必须)，版本自选,注意版本兼容问题 -->
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<!-- 表单序列化插件（必须）-->
-	<script src="js/jquery.serializejson.js"></script>
 	<title>ES6 Webpack Demo</title>
 </head>
-<script>
-	debugger;
-	/*初始化配置*/
-	report.options({
-		reportServer: 'http://42.123.97.19:8086/WebReport/ReportServer',//（必须）全局配置，在所有操作中未指定报表服务时，会调用此地址
-		showPrintTip: true,//(可选),显示打印提示，默认false（目前不建议使用）
-		sessionIdName: 'data-report-session-test',//(可选)报表SessionID属性名称，默认“data-report-session”
-		formIdPrefix: '#reportForm_',//(可选)报表表单ID前缀，默认“#reportForm”
-		formParamPrefix: 'params.',//(可选)表单参数前缀，默认无,若此参数为空且表单参数含有前缀的话，内部处理器将不会处理，报表可能会无法访问
-		frameIdPrefix: '#reportFrame_',//(可选)报表frame ID 前缀，默认“#reportFrame”
-	});
-	const v1 = report.getReportServer();
-	const v2 = report.getSessionIdName();
-	const v3 = report.getFormIdPrefix();
-	const v4 = report.getFormParamPrefix();
-	const v5 = report.getFrameIdPrefix();
-</script>
 </html>
-<body style="height: 100%">
+<body>
 <div class="div1">Hello World 测试css</div>
 <div class="div2">Hello World 测试scss</div>
 <div class="div3">Hello World 测试less</div>
-<!-- 表单ID说明
-1. id ['formIdPrefix'] + 'reportID'
-2. 表单元素 name ['formParamPrefix'] + 'name' ,有无前缀可混合使用，内部处理是只处理含有前缀的参数
--->
-<form id="reportForm_123456" disabled>
-	<label for="1">报表名称</label>
-	<input id="1" name="params.reportlet" value="common/NBPH/OLD_INFORMATION.cpt">
-	<label for="2">年份</label>
-	<input id="2" name="params.year" value="2018">
-	<label for="3">机构</label>
-	<input id="3" name="params.userOrgName" value="贵州省卫生计生委" disabled>
-	<label for="4">用户名</label>
-	<input id="4" name="userName" value="gzadmin">
-	<label for="5">地区编码</label>
-	<input id="5" name="area_id" value="52">
-	<label for="6">统计时间</label>
-	<input id="6" name="countTime" value="">
-	<label for="7">用户地区编码</label>
-	<input id="7" name="userArea" value="52">
-	<label for="8">用户机构编码</label>
-	<input id="8" name="userOrgCode" value="520000000146">
-	<label for="9">季度</label>
-	<input id="9" name="quarter" value="3">
-</form>
-<!--
-查询报表
-report.query(reportId, reportServer)
-@param {String} reportId 报表ID
-@param {String} reportServer 报表服务地址（可选），无时获取全局配置 reportServer
--->
-<button id="query" onclick="report.query('123456')">查询测试1</button>
-<button id="query2" onclick="report.query('123456',report.getReportServer())">查询测试2</button>
-<!--
-报表切换(根据实际调用次函数进行处理)
-report.switch(reportId, reportlet)
-@param {String} reportId 报表ID
-@param {String} reportlet 切换后报表的名称
-input[name$='reportlet'] 报表表单下 input 框且名称以“reportlet”结尾的控件值会被修改
--->
-<button id="switch" onclick="report.switch('123456','modified.cpt')">切换报表测试</button>
-<!--
-静默打印
-report.function (reportId, reportServer)
-@param {String} reportId 报表ID
-@param {String} reportServer 报表服务地址(可选)，无时获取全局配置
--->
-<button id="quietPrint" onclick="report.print('123456')">静默打印测试1</button>
-<button id="quietPrint2" onclick="report.print('123456',report.getReportServer())">静默打印测试2</button>
-<!--
-预览打印
-report.function (reportId, reportServer)
-@param {String} reportId 报表ID
-@param {String} reportServer 报表服务地址(可选)，无时获取全局配置
--->
-<button id="preview" onclick="report.preview('123456',report.getReportServer())">预览打印测试（未完成）</button>
-<div class="rep" style="height: 100%">
-	<div class="rep-param"></div>
-	<!-- iframe 说明:
-	1. id ['frameIdPrefix'] + 'reportID'
-	2. 报表查询后，会在将当前报表的session 值存储到 iframe 名为 “sessionIdName”（自定义或默认） 属性中
-	-->
-	<iframe id="reportFrame_123456" name="reportFrame" class="rep-iframe" style="height: 400px"></iframe>
-</div>
-<script>
-
-</script>
+<ul>
+	<li><a href="app.html">React Demo</a></li>
+	<li><a href="report.html">Report Demo</a></li>
+</ul>
 </body>
 

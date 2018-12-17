@@ -2,8 +2,8 @@ import '../../public/html/report.html';
 import '../common/style1.css';
 import './style.less';
 import './base';
-import {reportQuery} from './query';
-import {reportPreview, reportPrintOperation} from './print';
+import { reportQuery } from './query';
+import { reportPreview, reportPrintOperation } from './print';
 import {
 	changeValue,
 	REPORT_FORM_ID_PREFIX,
@@ -24,7 +24,7 @@ if (window.report == null) {
 	window.report = {};
 }
 report = {
-	options: function (config) {
+	options: function (config){
 		debugger;
 		if (config['showPrintTip']) {
 			setShowPrintTip(config['showPrintTip']);
@@ -45,22 +45,22 @@ report = {
 			setFrameIdPrefix(config['frameIdPrefix']);
 		}
 	},
-	getReportServer: function () {
+	getReportServer: function (){
 		if (!REPORT_SERVER) {
 			throw new Error('请设置报表服务地址');
 		}
 		return REPORT_SERVER;
 	},
-	getSessionIdName: function () {
+	getSessionIdName: function (){
 		return REPORT_SESSION_ID_NAME;
 	},
-	getFormIdPrefix: function () {
+	getFormIdPrefix: function (){
 		return REPORT_FORM_ID_PREFIX;
 	},
-	getFormParamPrefix: function () {
+	getFormParamPrefix: function (){
 		return REPORT_FORM_PARAM_PREFIX;
 	},
-	getFrameIdPrefix: function () {
+	getFrameIdPrefix: function (){
 		return REPORT_FRAME_ID_PREFIX;
 	},
 
@@ -70,7 +70,7 @@ report = {
 	 * @param reportServer 报表服务地址（可选），无时获取全局配置 reportServer
 	 * @see #reportQuery
 	 */
-	query: function (reportId, reportServer) {
+	query: function (reportId, reportServer){
 		debugger;
 		if (reportServer) {
 			reportQuery(reportId, reportServer);
@@ -85,7 +85,7 @@ report = {
 	 * @param reportlet 切换后报表的名称
 	 * @see changeValue
 	 */
-	switch: function (reportId, reportlet) {
+	switch: function (reportId, reportlet){
 		changeValue('input[name$=\'reportlet\']', reportlet, reportFormIdSelector(reportId));
 	},
 	/**
@@ -94,7 +94,7 @@ report = {
 	 * @param {String} reportServer 报表服务地址(可选)，无时获取全局配置
 	 * @see reportPrint
 	 */
-	print: function (reportId, reportServer = null) {
+	print: function (reportId, reportServer = null){
 		debugger;
 		if (reportServer) {
 			reportPrintOperation(reportId, reportServer);
@@ -108,7 +108,7 @@ report = {
 	 * @param reportServer 报表服务地址(可选)，无时获取全局配置
 	 * @see reportPreview
 	 */
-	preview: function (reportId, reportServer = null) {
+	preview: function (reportId, reportServer = null){
 		debugger;
 		if (reportServer) {
 			reportPrintOperation(reportId, reportServer, false);

@@ -21,6 +21,11 @@ module.exports = merge(common, {
 			canPrint: true
 		}),
 		new HtmlWebpackPlugin({
+			template: paths.resolveApp('public/index.html'),
+			minify: true,
+			favicon: paths.resolveApp('public/favicon.ico')
+		}),
+		new HtmlWebpackPlugin({
 			template: paths.resolveApp('public/html/app.html'),
 			filename: 'app.html',
 			minify: true,

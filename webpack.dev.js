@@ -30,7 +30,16 @@ module.exports = merge(common, {
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
+			template: paths.resolveApp('public/index.html'),
+		}),
+		new HtmlWebpackPlugin({
 			template: paths.resolveApp('public/html/app.html'),
+			filename: 'app.html'
+		}),
+		new HtmlWebpackPlugin({
+			template: paths.resolveApp('public/html/report.html'),
+			filename: 'report.html',
+			inject: 'head'
 		}),
 	]
 });
