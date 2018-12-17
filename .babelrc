@@ -4,8 +4,13 @@
 		[
 			"import", {
 			"libraryName": "antd",
-//			"libraryDirectory": "es",
+			//			"libraryDirectory": "es",
 			"style": true
+		}
+		],
+		[
+			"@babel/plugin-proposal-class-properties", {
+			"loose": true
 		}
 		]
 	],

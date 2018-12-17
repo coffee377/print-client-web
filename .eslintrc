@@ -13,7 +13,7 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"indent": ["error", "tab"],
+		"indent": ["off", "tab"],
 		"linebreak-style": ["warn", "unix"],
 		"quotes": ["off", "single"],
 		"semi": ["error", "always"],
