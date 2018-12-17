@@ -31,7 +31,7 @@
 1. id ['formIdPrefix'] + 'reportID'
 2. 表单元素 name ['formParamPrefix'] + 'name' ,有无前缀可混合使用，内部处理是只处理含有前缀的参数
 -->
-<form id="reportForm_123456" disabled>
+<form id="reportForm_123456">
 	<label for="1">报表名称</label>
 	<input id="1" name="params.reportlet" value="common/NBPH/OLD_INFORMATION.cpt">
 	<label for="2">年份</label>
@@ -50,6 +50,15 @@
 	<input id="8" name="userOrgCode" value="520000000146">
 	<label for="9">季度</label>
 	<input id="9" name="quarter" value="3">
+	<!-- 支持数组序列化 参数名称后面加“[]”-->
+	<select id="10" multiple="multiple" name="areaCode[]">
+		<option value="522201" selected>522201</option>
+		<option value="522202" selected>522202</option>
+		<option value="522203">522203</option>
+		<option>Orange</option>
+		<option>Pineapple</option>
+		<option>Banana</option>
+	</select>
 </form>
 <!--
 查询报表
