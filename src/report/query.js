@@ -15,7 +15,7 @@ import {
  * @param {String} reportId 报表ID
  * @param {String} reportServer 报表服务地址
  */
-function reportQuery(reportId, reportServer) {
+function reportQuery(reportId, reportServer){
 	debugger;
 	const params = serializeJSON4Form(reportId);
 	const url = reportUrl(reportServer, params, REPORT_FORM_PARAM_PREFIX);
@@ -31,7 +31,7 @@ function reportQuery(reportId, reportServer) {
  * @param reportId 报表ID
  * @returns {string}
  */
-function getReportSession(reportId) {
+function getReportSession(reportId){
 	return reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME);
 }
 
@@ -42,17 +42,24 @@ function getReportSession(reportId) {
  * @param {Object} params 请求参数
  * @returns {String}
  */
-function setReportSession(reportId, reportServer, params) {
+function setReportSession(reportId, reportServer, params){
 	// TODO: 2018/12/11 0011 16:07 校验查询条件发生变化才重新获取session
 	debugger;
 	params.op = OP_SESSION_ID;
 	params = trimPrefix(params, REPORT_FORM_PARAM_PREFIX);
-	$.getJSON(reportServer + '?callback=?', params, function (res) {
+	$.getJSON(reportServer + '?callback=?', params, function (res){
 		debugger;
 		let sessionID = res.sessionID;
-		console.log(`报表SessionID：${sessionID}`);
-		debugger;
-		reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, sessionID);
+		if (!sessionID) {
+			sessionID = res.responseText;
+		}
+		if (sessionID) {
+			debugger;
+			console.log(`报表SessionID：${sessionID}`);
+			reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, sessionID);
+		} else {
+			throw new Error('获取报表sessionID失败，报表扩展功能将无法使用，请联系相关技术人员');
+		}
 	});
 }
 
@@ -62,11 +69,20 @@ function setReportSession(reportId, reportServer, params) {
  * @param reportServer
  * @param params
  */
-function jsonp(reportId, reportServer, params) {
+function jsonp(reportId, reportServer, params){
 	debugger;
 	params = trimPrefix(params);
 	$.ajax({
-		url: reportServer, type: 'post', data: params, dataType: 'jsonp', jsonp: 'callback', success: function (res) {
+		url: reportServer, type: 'post', data: params, success: function (res){
+			debugger;
+			console.log('跨域请求成功：' + JSON.stringify(res));
+			console.log(`报表SessionID：${res.sessionID}`);
+			debugger;
+			reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, res.sessionID);
+		}
+	});
+	$.ajax({
+		url: reportServer, type: 'post', data: params, dataType: 'jsonp', jsonp: 'callback', success: function (res){
 			debugger;
 			console.log('跨域请求成功：' + JSON.stringify(res));
 			console.log(`报表SessionID：${res.sessionID}`);
@@ -92,4 +108,4 @@ const reportUrl = (reportServer, params, paramPrefix) => {
 	}
 };
 
-export {reportQuery, getReportSession, reportUrl};
+export { reportQuery, getReportSession, reportUrl };

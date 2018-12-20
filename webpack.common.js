@@ -30,9 +30,9 @@ const cssExtractLoader = () => {
 module.exports = {
 	entry: {
 		main: './src/index',
-		app: './src/app/index',
+		// app: './src/app/index',
 		common: './src/common/index',
-		// report: './src/report/index'
+		report: './src/report/index'
 	},
 	output: {
 		publicPath: paths.publicPath,
