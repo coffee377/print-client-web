@@ -78,7 +78,7 @@ input[name$='reportlet'] 报表表单下 input 框且名称以“reportlet”结
 <button id="switch" onclick="report.switch('123456','modified.cpt')">切换报表测试</button>
 <!--
 静默打印
-report.function (reportId, reportServer)
+report.print(reportId, reportServer)
 @param {String} reportId 报表ID
 @param {String} reportServer 报表服务地址(可选)，无时获取全局配置
 -->
@@ -86,7 +86,7 @@ report.function (reportId, reportServer)
 <button id="quietPrint2" onclick="report.print('123456',report.getReportServer())">静默打印测试2</button>
 <!--
 预览打印
-report.function (reportId, reportServer)
+report.preview(reportId, reportServer)
 @param {String} reportId 报表ID
 @param {String} reportServer 报表服务地址(可选)，无时获取全局配置
 -->
