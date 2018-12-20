@@ -1,7 +1,7 @@
 const defaultState = {
 	inputValue: '',
 	list: [
-		'Racing car sprays burning fuel into crowd.',
+		// 'Racing car sprays burning fuel into crowd.888'
 		// 'Japanese princess to wed commoner.',
 		// 'Australian walks 100km after outback crash.',
 		// 'Man charged over missing wedding girl.',
@@ -20,12 +20,13 @@ const defaultState = {
  * 下面例子使用 `switch` 语句和字符串来做判断，但你可以写帮助类(helper)
  * 根据不同的约定（如方法映射）来判断，只要适用你的项目即可。
  */
-function reducer(state = defaultState, action){
+function reducer(state = defaultState, action) {
 	if (action.type === 'CHANGE_TODO') {
 		const newState = JSON.parse(JSON.stringify(state));
 		newState.inputValue = action.value;
 		return newState;
-	} else if (action.type === 'ADD_TODO') {
+	}
+	if (action.type === 'ADD_TODO') {
 		const newState = JSON.parse(JSON.stringify(state));
 		newState.list.push(action.value);
 		newState.inputValue = '';

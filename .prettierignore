@@ -1,0 +1,12 @@
+**/*.md
+**/*.svg
+**/*.ejs
+**/*.html
+#package.json
+.umi
+.umi-production
+#src/layouts/index.js
+
+.idea
+node_modules
+.editorconfig

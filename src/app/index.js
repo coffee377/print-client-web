@@ -1,18 +1,13 @@
-import '../../public/html/app.html';
-import './style.less';
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import TodoList from './TodoList';
+import '../../public/html/app.html';
+import './style.less';
 
-class App extends Component {
+const App = () => (
+	<div>
+		<TodoList />
+	</div>
+);
 
-	render(){
-		return (
-			<div>
-				<TodoList/>
-			</div>
-		);
-	}
-}
-
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

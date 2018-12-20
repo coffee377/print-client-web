@@ -1,12 +1,11 @@
-'use strict';
 const env = 'development';
 process.env.NODE_ENV = env;
 
 const merge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const paths = require('./config/paths');
 const common = require('./webpack.common.js');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
 	mode: env,
@@ -30,7 +29,7 @@ module.exports = merge(common, {
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
-			template: paths.resolveApp('public/index.html'),
+			template: paths.resolveApp('public/index.html')
 		}),
 		new HtmlWebpackPlugin({
 			template: paths.resolveApp('public/html/app.html'),
@@ -40,6 +39,6 @@ module.exports = merge(common, {
 			template: paths.resolveApp('public/html/report.html'),
 			filename: 'report.html',
 			inject: 'head'
-		}),
+		})
 	]
 });

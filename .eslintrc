@@ -1,25 +1,42 @@
 {
-	"parser": "babel-eslint",
-	"plugins": ["react"],
-	"env": {
-		"browser": true,
-		"commonjs": true,
-		"es6": true,
-		"node": true
-	},
-	"extends": "eslint:recommended",
-	"parserOptions": {
-		"ecmaVersion": 6,
-		"sourceType": "module"
-	},
-	"rules": {
-		"indent": ["off", "tab"],
-		"linebreak-style": ["warn", "unix"],
-		"quotes": ["off", "single"],
-		"semi": ["error", "always"],
-		"no-console": "off",
-		"no-debugger": "off",
-		"no-unused-vars": "off",
-		"no-undef": "off"
-	}
+    "parser": "babel-eslint",
+    "plugins": ["prettier", "react"],
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "node": true,
+        "es6": true,
+        "mocha": true,
+        "jest": true,
+        "jasmine": true
+    },
+    "extends": ["airbnb", "prettier", "prettier/react"],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "rules": {
+        "prettier/prettier": "error",
+        "react/jsx-filename-extension": [
+            "warn",
+            {
+                "extensions": ["js", ".jsx"]
+            }
+        ],
+        "react/prop-types": "off",
+        "linebreak-style": ["warn", "unix"],
+        "react/destructuring-assignment": "off",
+        "no-console": "off",
+        "no-debugger": "off",
+        "no-unused-vars": "warn",
+        "import/prefer-default-export": "warn",
+        "import/no-unresolved": [
+            "warn",
+            {
+                "ignore": ["^@/'", "^umi/", "^components/"]
+            }
+        ],
+        "import/no-extraneous-dependencies": "warn",
+        "prefer-destructuring": "off"
+    }
 }
