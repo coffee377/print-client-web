@@ -4,11 +4,11 @@ import store from '../redux/store';
 import './style.less';
 
 const success = () => {
-	message.success('打印完成8', 3);
+	message.success('打印完成', 3);
 };
 
 const printing = () => {
-	message.loading('正在打印8', 3);
+	message.loading('正在打印', 3);
 };
 
 class TodoList extends Component {

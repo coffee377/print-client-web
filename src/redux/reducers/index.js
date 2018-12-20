@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 const defaultState = {
 	inputValue: '',
 	list: [
@@ -27,10 +29,13 @@ function reducer(state = defaultState, action) {
 		return newState;
 	}
 	if (action.type === 'ADD_TODO') {
-		const newState = JSON.parse(JSON.stringify(state));
-		newState.list.push(action.value);
-		newState.inputValue = '';
-		return newState;
+		if (action.value) {
+			const newState = JSON.parse(JSON.stringify(state));
+			newState.list.push(action.value);
+			newState.inputValue = '';
+			return newState;
+		}
+		message.warn('请输入待办事项', 3);
 	}
 	return state;
 }
