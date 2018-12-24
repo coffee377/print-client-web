@@ -10,5 +10,5 @@ const App = () => (
 		<TodoList />
 	</div>
 );
-console.log('hhhhhiiii');
+
 ReactDOM.render(<App />, document.getElementById('root'));

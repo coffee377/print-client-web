@@ -65,6 +65,28 @@ function setFrameIdPrefix(frameIdPrefix) {
 }
 
 /**
+ * 参数去前缀
+ * @param params  {Object} params 请求参数对象
+ * @param paramPrefix 参数名前缀
+ */
+function trimPrefix(params, paramPrefix) {
+	debugger;
+	if (params && paramPrefix) {
+		const map = {};
+		Object.keys(params).map(key => {
+			const value = params[key] ? params[key] : '';
+			let trimKey = key;
+			if (paramPrefix && key.match(`^${paramPrefix}`)) {
+				trimKey = key.substring(paramPrefix.length);
+			}
+			map[trimKey] = value;
+		});
+		return map;
+	}
+	return params;
+}
+
+/**
  * 获取Get请求详细地址
  * @param {String} url 请求地址
  * @param {Object} params 请求参数对象
@@ -74,10 +96,10 @@ function setFrameIdPrefix(frameIdPrefix) {
 function getUrl(url, params, paramPrefix) {
 	let paramStr = '';
 	debugger;
-	params = trimPrefix(params, paramPrefix);
+	const newParams = trimPrefix(params, paramPrefix);
 	if (params) {
-		Object.keys(params).map((key, index, array) => {
-			let value = params[key] ? params[key] : '';
+		Object.keys(newParams).map((key, index, array) => {
+			const value = newParams[key] ? newParams[key] : '';
 			if (index !== array.length - 1) {
 				paramStr += `${key}=${value}&`;
 			} else {
@@ -89,34 +111,13 @@ function getUrl(url, params, paramPrefix) {
 }
 
 /**
- * 参数去前缀
- * @param params  {Object} params 请求参数对象
- * @param paramPrefix 参数名前缀
- */
-function trimPrefix(params, paramPrefix) {
-	debugger;
-	if (params && paramPrefix) {
-		let map = {};
-		Object.keys(params).map((key) => {
-			let value = params[key] ? params[key] : '';
-			if (paramPrefix && key.match('^' + paramPrefix)) {
-				key = key.substring(paramPrefix.length);
-			}
-			map[key] = value;
-		});
-		return map;
-	}
-	return params;
-}
-
-/**
  * 表单数据序列化
  * @param selector jQuery 选择器
  * @returns {*|jQuery}
  */
 function getFormData(selector) {
 	debugger;
-	const data = $(selector).serializeJSON({checkboxUncheckedValue: 'false', parseBooleans: true});
+	const data = $(selector).serializeJSON({ checkboxUncheckedValue: 'false', parseBooleans: true });
 	console.log(JSON.stringify(data));
 	return data;
 }
