@@ -3,8 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<!-- jquery(必须)，版本自选,注意版本兼容问题 -->
-	<script src="js/jquery-1.7.2.min.js"></script>
-	<!--<script src="js/jquery-3.2.1.min.js"></script>-->
+	<script src="js/jquery-3.2.1.min.js"></script>
 	<!-- 表单序列化插件（必须）-->
 	<script src="js/jquery.serializejson.js"></script>
 	<title>ES6 Webpack Demo</title>
@@ -13,7 +12,9 @@
 	debugger;
 	/*初始化配置*/
 	report.options({
-		reportServer: 'http://42.123.97.19:8086/WebReport/ReportServer',//（必须）全局配置，在所有操作中未指定报表服务时，会调用此地址
+		reportServer: 'http://10.1.72.36/WebReport/ReportServer',//（必须）全局配置，在所有操作中未指定报表服务时，会调用此地址
+		// reportServer: 'http://42.123.97.19:8086/WebReport/ReportServer',//（必须）全局配置，在所有操作中未指定报表服务时，会调用此地址
+		showPrintTip: true,//（可选）是否显示打印提示信息，默认 false
 		sessionIdName: 'data-report-session-test',//(可选)报表SessionID属性名称，默认“data-report-session”
 		formIdPrefix: '#reportForm_',//(可选)报表表单ID前缀，默认“#reportForm”
 		formParamPrefix: 'params.',//(可选)表单参数前缀，默认无,若此参数为空且表单参数含有前缀的话，内部处理器将不会处理，报表可能会无法访问
@@ -84,7 +85,6 @@ report.print(reportId, reportServer)
 -->
 <button id="quietPrint" onclick="report.print('123456')">静默打印测试1</button>
 <button id="quietPrint2" onclick="report.print('123456',report.getReportServer())">静默打印测试2</button>
-<button id="testajax" onclick="ajax()">ajax测试</button>
 <!--
 预览打印
 report.preview(reportId, reportServer)
@@ -100,51 +100,5 @@ report.preview(reportId, reportServer)
 	-->
 	<iframe id="reportFrame_123456" name="reportFrame" class="rep-iframe" style="height: 400px"></iframe>
 </div>
-<script>
-	function ajax(){
-		debugger;
-		const params = {
-			'reportlet': 'statistics/3401/test/cesh.cpt'
-			, 'userArea': '5224'
-			, 'userName': 'A000000'
-			, 'startDate': '2018-12-04'
-			, 'endDate': '2018-12-24'
-			, 'compenIns': ''
-			, 'op': 'getSessionID'
-		};
-		$.getJSON('http://localhost:8088/ncmsweb/ReportServer?callback=?', params, function(res){
-				debugger;
-				alert('getJSON' + JSON.stringify(res));
-			}
-		);
-		debugger;
-		$.ajax({
-			url: 'http://localhost:8088/ncmsweb/ReportServer',
-			type: 'get',
-			contentType: 'application/json;charset=utf-8',
-			data: params,
-			dataType: 'jsonp',
-			jsonp: 'callback',
-			jsonpCallback:'test',
-			success: function(res){
-				debugger;
-				alert('ajax本地访问' + JSON.stringify(res));
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown){
-				console.error(XMLHttpRequest.status);
-				console.error(textStatus);
-				console.error(errorThrown);
-			}
-		});
-		// $.ajax({
-		// 	url: 'http://localhost:8088/ncmsweb/ReportServer', type: 'post', data: params, dataType: 'jsonp', jsonp: 'callback', success: function (res) {
-		// 		debugger;
-		// 		alert('ajax跨域访问' + JSON.stringify(res));
-		// 	}
-		// });
-	}
-
-
-</script>
 </body>
 
