@@ -11,6 +11,7 @@ import {
 	REPORT_SERVER,
 	REPORT_SESSION_ID_NAME,
 	reportFormIdSelector,
+	reportFrameIdSelector,
 	setFormIdPrefix,
 	setFormParamPrefix,
 	setFrameIdPrefix,
@@ -88,6 +89,10 @@ window.report = {
 	 */
 	switch(reportId, reportlet) {
 		changeValue("input[name$='reportlet']", reportlet, reportFormIdSelector(reportId));
+		// 切换报表是清除 session
+		// reportFrameIdSelector(reportId).removeAttr("src");
+		// reportFrameIdSelector(reportId).removeClass('bg-color');
+		reportFrameIdSelector(reportId).removeAttr(REPORT_SESSION_ID_NAME);
 	},
 	/**
 	 * 打印报表
