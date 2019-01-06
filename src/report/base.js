@@ -5,6 +5,20 @@
 const OP_SESSION_ID = 'getSessionID';
 
 /**
+ * 报表服务器版本
+ * @type {string}
+ */
+let reportVersion = '9.0';
+
+/**
+ * 设置报表版本
+ * @param version
+ */
+function setRrportVersion(version) {
+	reportVersion = version;
+}
+
+/**
  * 是否显示打印提示
  * @type {boolean}
  */
@@ -173,8 +187,10 @@ export {
 	REPORT_FORM_ID_PREFIX,
 	REPORT_FORM_PARAM_PREFIX,
 	REPORT_FRAME_ID_PREFIX,
+	reportVersion,
 	setShowPrintTip,
 	setReportServer,
+	setRrportVersion,
 	setSessionIdName,
 	setFormIdPrefix,
 	setFormParamPrefix,

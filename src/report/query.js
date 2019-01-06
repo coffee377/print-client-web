@@ -4,6 +4,7 @@ import {
 	REPORT_FORM_PARAM_PREFIX,
 	REPORT_SESSION_ID_NAME,
 	reportFrameIdSelector,
+	reportVersion,
 	serializeJSON4Form,
 	trimPrefix
 } from './base';
@@ -35,36 +36,12 @@ function setReportSession(reportId, reportServer, params) {
 	let newParams = params;
 	newParams.op = OP_SESSION_ID;
 	newParams = trimPrefix(newParams, REPORT_FORM_PARAM_PREFIX);
-	$.getJSON(`${reportServer}?callback=?`, newParams, res => {
+	// 8.0 报表 session 获取
+	if (reportVersion === '8.0') {
 		debugger;
-		const sessionID = res.sessionID || res.responseText || res;
-		if (sessionID) {
-			debugger;
-			console.log(`报表SessionID：${sessionID}`);
-			reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, sessionID);
-		}
-	});
-}
-
-/**
- * 获取报表 SessionID
- * @param reportId 报表ID
- * @returns {string}
- */
-function getReportSession(reportId) {
-	return reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME);
-}
-
-/**
- * 报表 SessionID 校验
- * @param reportId
- */
-function reportSessionVerify(reportId) {
-	let reportSessionID = getReportSession(reportId);
-	if (!reportSessionID) {
-		debugger;
-		const url = `${reportFrameIdSelector(reportId).attr('src')}&op=${OP_SESSION_ID}`;
-		$.get(url, res => {
+		const sessionUrl = reportUrl(reportServer, params, REPORT_FORM_PARAM_PREFIX);
+		let reportSessionID;
+		$.get(sessionUrl, res => {
 			reportSessionID = res;
 			if (reportSessionID && reportSessionID.match('^[0-9]*$')) {
 				console.log(`报表SessionID：${reportSessionID}`);
@@ -74,6 +51,29 @@ function reportSessionVerify(reportId) {
 			}
 		});
 	}
+	// 9.0 报表 Session 获取
+	if (reportVersion === '9.0') {
+		$.getJSON(`${reportServer}?callback=?`, newParams, res => {
+			debugger;
+			const sessionID = res.sessionID || res.responseText || res;
+			if (sessionID) {
+				debugger;
+				console.log(`报表SessionID：${sessionID}`);
+				reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, sessionID);
+			} else {
+				throw new Error('获取报表sessionID失败，报表扩展功能将无法使用，请联系相关技术人员');
+			}
+		});
+	}
+}
+
+/**
+ * 获取报表 SessionID
+ * @param reportId 报表ID
+ * @returns {string}
+ */
+function getReportSession(reportId) {
+	return reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME);
 }
 
 /**
@@ -92,7 +92,6 @@ function reportQuery(reportId, reportServer) {
 	reportFrameIdSelector(reportId)
 		.attr('src', url)
 		.addClass('bg-color');
-	reportSessionVerify(reportId);
 }
 
 export { reportQuery, getReportSession, reportUrl };

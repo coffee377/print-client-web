@@ -12,10 +12,12 @@ import {
 	REPORT_SESSION_ID_NAME,
 	reportFormIdSelector,
 	reportFrameIdSelector,
+	reportVersion,
 	setFormIdPrefix,
 	setFormParamPrefix,
 	setFrameIdPrefix,
 	setReportServer,
+	setRrportVersion,
 	setSessionIdName,
 	setShowPrintTip
 } from './base';
@@ -32,6 +34,9 @@ window.report = {
 			}
 			if (config.reportServer) {
 				setReportServer(config.reportServer);
+			}
+			if (config.reportVersion) {
+				setRrportVersion(config.reportVersion);
 			}
 			if (config.sessionIdName) {
 				setSessionIdName(config.sessionIdName);
@@ -52,6 +57,9 @@ window.report = {
 			throw new Error('请设置报表服务地址');
 		}
 		return REPORT_SERVER;
+	},
+	getReportVersion() {
+		return reportVersion;
 	},
 	getSessionIdName() {
 		return REPORT_SESSION_ID_NAME;
