@@ -1,10 +1,24 @@
 {
-//	"compilerOptions": {
-//		"outDir": "./dist/",
-//		"noImplicitAny": true,
-//		"module": "es6",
-//		"target": "es5",
-//		"jsx": "react",
-//		"allowJs": true
-//	}
+	"compilerOptions": {
+		/* 生成的所有文件放在built目录下*/
+		"outDir": "./built/",
+		/* 启用源映射 */
+		"sourceMap": true,
+		"noImplicitAny": true,
+		"module": "commonjs",
+		/* 将JavaScript代码降级到低版本比如ECMAScript 5 */
+		"target": "es5",
+		/* 生成 .d.ts 声明文件 */
+		"declaration": true,
+		"jsx": "react"
+		/* 接受JavaScript做为输入 */
+		//		"allowJs": true
+	},
+	/* 读取所有可识别的src目录下的文件 */
+	"include": [
+		"./src/**/*"
+	],
+	"exclude": [
+		"./node_modules"
+	]
 }

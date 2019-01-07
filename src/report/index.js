@@ -132,9 +132,40 @@ window.report = {
 	}
 };
 
-// const d = new Report();
-// d.query('123456');
-// d.switch('123456', 'testswitch');
-// d.print('123456');
-// d.print('123456', true);
-// d.preview('123456');
+// (function(root, factory){
+// 	if (typeof define === 'function' && define.amd) {
+// 		// AMD. Register as an anonymous module.
+// 		define(['report'], factory);
+// 	} else if (typeof module === 'object' && module.exports) {
+// 		// Node. Does not work with strict CommonJS, but
+// 		// only CommonJS-like environments that support module.exports,
+// 		// like Node.
+// 		module.exports = factory(require('report'));
+// 	} else {
+// 		// Browser globals (root is window)
+// 		root.returnExports = factory(root.report);
+// 	}
+// }(this, function(report){
+// 	//use b in some fashion.
+//
+// 	// Just return a value to define the module export.
+// 	// This example returns an object, but the module
+// 	// can return a function as the exported value.
+// 	/**
+// 	 * 打印报表
+// 	 * @param reportId
+// 	 * @param reportServer
+// 	 */
+// 	function query(reportId, reportServer){
+// 		alert('报表查询');
+// 	}
+//
+// 	/**
+// 	 * 报表打印
+// 	 * @param reportId
+// 	 * @param reportServer
+// 	 */
+// 	function print(reportId, reportServer = null){
+// 		alert("报表打印")
+// 	}
+// }));

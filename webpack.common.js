@@ -40,7 +40,7 @@ module.exports = {
 		jquery: 'window.jQuery'
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.css', '.less', '.sass', '.html']
+		extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.less', '.sass', '.html']
 	},
 	module: {
 		rules: [
@@ -90,6 +90,14 @@ module.exports = {
 				exclude: paths.appNodeModules
 			},
 			{
+				test: /\.tsx?$/,
+				include: paths.appSrc,
+				exclude: paths.appNodeModules,
+				use: {
+					loader: 'ts-loader'
+				}
+			},
+			{
 				enforce: 'pre',
 				test: /\.jsx?$/,
 				include: paths.appSrc,
@@ -124,14 +132,6 @@ module.exports = {
 						}
 					}
 				]
-			},
-			{
-				test: /\.tsx?$/,
-				include: paths.appSrc,
-				exclude: paths.appNodeModules,
-				use: {
-					loader: 'ts-loader'
-				}
 			}
 		]
 	},
