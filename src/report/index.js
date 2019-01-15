@@ -5,11 +5,11 @@ import { reportQuery } from './query';
 import { reportPreview, reportPrintOperation } from './print';
 import {
 	changeValue,
-	REPORT_FORM_ID_PREFIX,
-	REPORT_FORM_PARAM_PREFIX,
-	REPORT_FRAME_ID_PREFIX,
-	REPORT_SERVER,
-	REPORT_SESSION_ID_NAME,
+	reportFormIdPrefix,
+	reportFormParamPrefix,
+	reportFrameIdPrefix,
+	reportServerUrl,
+	reportSessionIdName,
 	reportFormIdSelector,
 	reportFrameIdSelector,
 	reportVersion,
@@ -17,7 +17,7 @@ import {
 	setFormParamPrefix,
 	setFrameIdPrefix,
 	setReportServer,
-	setRrportVersion,
+	setReportVersion,
 	setSessionIdName,
 	setShowPrintTip
 } from './base';
@@ -36,7 +36,7 @@ window.report = {
 				setReportServer(config.reportServer);
 			}
 			if (config.reportVersion) {
-				setRrportVersion(config.reportVersion);
+				setReportVersion(config.reportVersion);
 			}
 			if (config.sessionIdName) {
 				setSessionIdName(config.sessionIdName);
@@ -53,25 +53,25 @@ window.report = {
 		}
 	},
 	getReportServer() {
-		if (!REPORT_SERVER) {
+		if (!reportServerUrl) {
 			throw new Error('请设置报表服务地址');
 		}
-		return REPORT_SERVER;
+		return reportServerUrl;
 	},
 	getReportVersion() {
 		return reportVersion;
 	},
 	getSessionIdName() {
-		return REPORT_SESSION_ID_NAME;
+		return reportSessionIdName;
 	},
 	getFormIdPrefix() {
-		return REPORT_FORM_ID_PREFIX;
+		return reportFormIdPrefix;
 	},
 	getFormParamPrefix() {
-		return REPORT_FORM_PARAM_PREFIX;
+		return reportFormParamPrefix;
 	},
 	getFrameIdPrefix() {
-		return REPORT_FRAME_ID_PREFIX;
+		return reportFrameIdPrefix;
 	},
 
 	/**
@@ -100,7 +100,7 @@ window.report = {
 		// 切换报表是清除 session
 		// reportFrameIdSelector(reportId).removeAttr("src");
 		// reportFrameIdSelector(reportId).removeClass('bg-color');
-		reportFrameIdSelector(reportId).removeAttr(REPORT_SESSION_ID_NAME);
+		reportFrameIdSelector(reportId).removeAttr(reportSessionIdName);
 	},
 	/**
 	 * 打印报表

@@ -14,7 +14,7 @@ let reportVersion = '9.0';
  * 设置报表版本
  * @param version
  */
-function setRrportVersion(version) {
+function setReportVersion(version) {
 	reportVersion = version;
 }
 
@@ -22,60 +22,60 @@ function setRrportVersion(version) {
  * 是否显示打印提示
  * @type {boolean}
  */
-let SHOW_PRINT_TIP = false;
+let showPrintTip = false;
 
 function setShowPrintTip(showTip) {
-	SHOW_PRINT_TIP = showTip;
+	showPrintTip = showTip;
 }
 
 /**
  * 全局报表服务地址
  * @type {string}
  */
-let REPORT_SERVER;
+let reportServerUrl;
 
 function setReportServer(reportServer) {
-	REPORT_SERVER = reportServer;
+	reportServerUrl = reportServer;
 }
 
 /**
  * 报表 SESSION_ID 名称
  * @type {string}
  */
-let REPORT_SESSION_ID_NAME = 'data-report-session';
+let reportSessionIdName = 'data-report-session';
 
 function setSessionIdName(sessionIdName) {
-	REPORT_SESSION_ID_NAME = sessionIdName;
+	reportSessionIdName = sessionIdName;
 }
 
 /**
  * 报表Form ID前缀
  * @type {string}
  */
-let REPORT_FORM_ID_PREFIX = '#reportForm';
+let reportFormIdPrefix = '#reportForm';
 
 function setFormIdPrefix(formIdPrefix) {
-	REPORT_FORM_ID_PREFIX = formIdPrefix;
+	reportFormIdPrefix = formIdPrefix;
 }
 
 /**
  * 报表Form 参数前缀前缀
  * @type {string}
  */
-let REPORT_FORM_PARAM_PREFIX = '';
+let reportFormParamPrefix = '';
 
 function setFormParamPrefix(formParamPrefix) {
-	REPORT_FORM_PARAM_PREFIX = formParamPrefix;
+	reportFormParamPrefix = formParamPrefix;
 }
 
 /**
  * 报表Frame ID前缀
  * @type {string}
  */
-let REPORT_FRAME_ID_PREFIX = '#reportFrame';
+let reportFrameIdPrefix = '#reportFrame';
 
 function setFrameIdPrefix(frameIdPrefix) {
-	REPORT_FRAME_ID_PREFIX = frameIdPrefix;
+	reportFrameIdPrefix = frameIdPrefix;
 }
 
 /**
@@ -137,16 +137,6 @@ function getFormData(selector) {
 }
 
 /**
- * 根据报表表单序列化为查询参数
- * @param {String} reportId 报表ID
- * @returns {Object} map
- */
-function serializeJSON4Form(reportId) {
-	const formIdSelector = reportId ? $(REPORT_FORM_ID_PREFIX + reportId) : $(REPORT_FORM_ID_PREFIX);
-	return getFormData(formIdSelector);
-}
-
-/**
  * 报表表单下指定选择器值得修改
  * @param selector Query 选择器
  * @param value 新值
@@ -167,7 +157,7 @@ function changeValue(selector, value, idSelector) {
  * @returns {*|jQuery|HTMLElement}
  */
 function reportFormIdSelector(reportId) {
-	return reportId ? $(REPORT_FORM_ID_PREFIX + reportId) : $(REPORT_FORM_ID_PREFIX);
+	return reportId ? $(reportFormIdPrefix + reportId) : $(reportFormIdPrefix);
 }
 
 /**
@@ -176,21 +166,30 @@ function reportFormIdSelector(reportId) {
  * @returns {*|jQuery|HTMLElement}
  */
 function reportFrameIdSelector(reportId) {
-	return reportId ? $(REPORT_FRAME_ID_PREFIX + reportId) : $(REPORT_FRAME_ID_PREFIX);
+	return reportId ? $(reportFrameIdPrefix + reportId) : $(reportFrameIdPrefix);
+}
+
+/**
+ * 根据报表表单序列化为查询参数
+ * @param {String} reportId 报表ID
+ * @returns {Object} map
+ */
+function serializeJSON4Form(reportId) {
+	return getFormData(reportFormIdSelector(reportId));
 }
 
 export {
-	SHOW_PRINT_TIP,
-	REPORT_SERVER,
+	showPrintTip,
+	reportServerUrl,
 	OP_SESSION_ID,
-	REPORT_SESSION_ID_NAME,
-	REPORT_FORM_ID_PREFIX,
-	REPORT_FORM_PARAM_PREFIX,
-	REPORT_FRAME_ID_PREFIX,
+	reportSessionIdName,
+	reportFormIdPrefix,
+	reportFormParamPrefix,
+	reportFrameIdPrefix,
 	reportVersion,
 	setShowPrintTip,
 	setReportServer,
-	setRrportVersion,
+	setReportVersion,
 	setSessionIdName,
 	setFormIdPrefix,
 	setFormParamPrefix,

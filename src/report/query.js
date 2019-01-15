@@ -1,8 +1,8 @@
 import {
 	getUrl,
 	OP_SESSION_ID,
-	REPORT_FORM_PARAM_PREFIX,
-	REPORT_SESSION_ID_NAME,
+	reportFormParamPrefix,
+	reportSessionIdName,
 	reportFrameIdSelector,
 	reportVersion,
 	serializeJSON4Form,
@@ -35,17 +35,17 @@ function setReportSession(reportId, reportServer, params) {
 	debugger;
 	let newParams = params;
 	newParams.op = OP_SESSION_ID;
-	newParams = trimPrefix(newParams, REPORT_FORM_PARAM_PREFIX);
+	newParams = trimPrefix(newParams, reportFormParamPrefix);
 	// 8.0 报表 session 获取
 	if (reportVersion === '8.0') {
 		debugger;
-		const sessionUrl = reportUrl(reportServer, params, REPORT_FORM_PARAM_PREFIX);
+		const sessionUrl = reportUrl(reportServer, params, reportFormParamPrefix);
 		let reportSessionID;
 		$.get(sessionUrl, res => {
 			reportSessionID = res;
 			if (reportSessionID && reportSessionID.match('^[0-9]*$')) {
 				console.log(`报表SessionID：${reportSessionID}`);
-				reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, reportSessionID);
+				reportFrameIdSelector(reportId).attr(reportSessionIdName, reportSessionID);
 			} else {
 				throw new Error('获取报表sessionID失败，报表扩展功能将无法使用，请联系相关技术人员');
 			}
@@ -59,7 +59,7 @@ function setReportSession(reportId, reportServer, params) {
 			if (sessionID) {
 				debugger;
 				console.log(`报表SessionID：${sessionID}`);
-				reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME, sessionID);
+				reportFrameIdSelector(reportId).attr(reportSessionIdName, sessionID);
 			} else {
 				throw new Error('获取报表sessionID失败，报表扩展功能将无法使用，请联系相关技术人员');
 			}
@@ -73,7 +73,7 @@ function setReportSession(reportId, reportServer, params) {
  * @returns {string}
  */
 function getReportSession(reportId) {
-	return reportFrameIdSelector(reportId).attr(REPORT_SESSION_ID_NAME);
+	return reportFrameIdSelector(reportId).attr(reportSessionIdName);
 }
 
 /**
@@ -85,7 +85,7 @@ function reportQuery(reportId, reportServer) {
 	debugger;
 	const params = serializeJSON4Form(reportId);
 	debugger;
-	const url = reportUrl(reportServer, params, REPORT_FORM_PARAM_PREFIX);
+	const url = reportUrl(reportServer, params, reportFormParamPrefix);
 	console.log(`报表实际访问地址：${url}`);
 	debugger;
 	setReportSession(reportId, reportServer, params);

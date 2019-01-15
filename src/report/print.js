@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { message } from 'antd';
 import { getReportSession } from './query';
-import { SHOW_PRINT_TIP } from './base';
+import { showPrintTip } from './base';
 
 message.config({
 	top: 80,
@@ -113,7 +113,7 @@ function reportPrintOperation(reportId, reportServer, quietPrint = true) {
 	/* 打印前事件 */
 	printSocket.on(EVENT_BEFORE_PRINT, () => {
 		debugger;
-		if (SHOW_PRINT_TIP && quietPrint) {
+		if (showPrintTip && quietPrint) {
 			printing();
 		}
 	});
