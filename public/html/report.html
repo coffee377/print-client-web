@@ -54,8 +54,10 @@
 	<!--<input id="8" name="userOrgCode" value="520000000146">-->
 	<!--<label for="9">季度</label>-->
 	<!--<input id="9" name="quarter" value="3">-->
-	<input name="startDate" value="2018-12-25">
-	<input name="endDate" value="2019-01-04">
+	<input name="startDate" value="2018-12-25 00:00:00">
+	<input name="endDate" value="2019-01-04 23:59:59">
+	<input name="isCancle" value="0">
+	<input name="px" value="0">
 	<!-- 支持数组序列化 参数名称后面加“[]”-->
 	<!--<select id="10" multiple="multiple" name="areaCode[]">-->
 	<!--<option value="522201" selected>522201</option>-->
@@ -81,7 +83,7 @@ report.switch(reportId, reportlet)
 @param {String} reportlet 切换后报表的名称
 input[name$='reportlet'] 报表表单下 input 框且名称以“reportlet”结尾的控件值会被修改
 -->
-<button id="switch" onclick="report.switch('123456','statistics/3401/staff/card_count.cpt')">切换报表测试</button>
+<button id="switch" onclick="report.switch('123456','statistics/3401/staff/person_insured.cpt')">切换报表测试</button>
 <!--
 静默打印
 report.print(reportId, reportServer)
