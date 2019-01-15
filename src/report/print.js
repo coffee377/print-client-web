@@ -70,7 +70,11 @@ function reportPreview(reportId, previewConfig) {
  */
 function protocolUrl(args) {
 	debugger;
-	window.location.href = `PrintPlus://${args}`;
+	if (args) {
+		window.location.href = `PrintPlus://${args}`;
+	} else {
+		window.location.href = `PrintPlus://`;
+	}
 }
 
 /**
