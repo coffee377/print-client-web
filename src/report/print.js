@@ -30,7 +30,15 @@ const printError = result => {
  * Module variable.
  */
 const REPORT_SOCKET_URL = 'http://localhost:10227';
+const REPORT_SOCKET_OPTS = {
+	// 当连接终止后，是否允许Socket.io自动进行重连,默认 true
+	reconnection: true,
+	// 为Socket.io的重连设置一个时间间隔，内部会在多次重连尝试时采用该值的指数值间隔，
+	// 用来避免性能损耗（500 > 1000 > 2000 > 4000 > 8000）,默认 500ms
+	reconnectionDelay: 500
+};
 
+/* Socket 事件 */
 const EVENT_TYPE_CHECKING = 'typeChecking';
 const EVENT_BEFORE_PRINT = 'beforePrint';
 const EVENT_PRINT = 'print';
@@ -39,7 +47,9 @@ const EVENT_AFTER_PRINT = 'afterPrint';
 const EVENT_ERROR_OCCURS = 'errorOccurs';
 
 let isLoadingPrint = false;
-let printSocket = io(REPORT_SOCKET_URL);
+// socket
+let printSocket;
+// let printSocket = io(REPORT_SOCKET_URL, REPORT_SOCKET_OPTS);
 let printSocketId;
 
 /**
@@ -93,7 +103,7 @@ function reportPrintOperation(reportId, reportServer, quietPrint = true) {
 	const config = { sessionID: session, quietPrint, url: reportServer };
 	debugger;
 	if (printSocket == null) {
-		printSocket = io(REPORT_SOCKET_URL);
+		printSocket = io(REPORT_SOCKET_URL, REPORT_SOCKET_OPTS);
 	} else {
 		printSocket.removeAllListeners();
 	}
@@ -134,7 +144,7 @@ function reportPrintOperation(reportId, reportServer, quietPrint = true) {
 	});
 	printSocket.on(EVENT_AFTER_PRINT, res => {
 		debugger;
-		if (SHOW_PRINT_TIP && quietPrint) {
+		if (showPrintTip && quietPrint) {
 			printSuccess(res);
 		}
 	});

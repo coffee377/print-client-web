@@ -54,7 +54,7 @@ window.report = {
 	},
 	getReportServer() {
 		if (!reportServerUrl) {
-			throw new Error('请设置报表服务地址');
+			throw new Error('请配置报表服务地址');
 		}
 		return reportServerUrl;
 	},
