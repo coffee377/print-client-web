@@ -11,5 +11,43 @@
 <!--<div class="div2">Hello World 测试scss</div>-->
 <!--<div class="div3">Hello World 测试less</div>-->
 <div id="root"></div>
+<div id="login_container"></div>
+<script src="//g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+<script>
+	/*
+* 解释一下goto参数，参考以下例子：
+* var url = encodeURIComponent('http://localhost.me/index.php?test=1&aa=2');
+* var goto = encodeURIComponent('https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=appid&response_type=code&scope=snsapi_login&state=STATE&redirect_uri='+url)
+*/
+	const REDIRECT_URI = encodeURIComponent('http://localhost:8080/login2');
+	const APP_ID = 'dingoatu28riys89eqalct';
+	const url = 'https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=' + APP_ID + '&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=' + REDIRECT_URI;
+	const goto = encodeURIComponent(url);
+	const obj = DDLogin({
+		id: 'login_container',//这里需要你在自己的页面定义一个HTML标签并设置id，例如<div id="login_container"></div>或<span id="login_container"></span>
+		goto: goto, //请参考注释里的方式
+		style: 'border:none;background-color:#fff;',
+		width: '300',
+		height: '600'
+	});
+	const handleMessage = function(event){
+		const origin = event.origin;
+		console.log('origin', event.origin);
+		if (origin === 'https://login.dingtalk.com') { //判断是否来自ddLogin扫码事件。
+			const loginTmpCode = event.data; //拿到loginTmpCode后就可以在这里构造跳转链接进行跳转了
+			console.log('loginTmpCode', loginTmpCode);
+			debugger;
+			const href = 'https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=' + APP_ID + '&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=' + REDIRECT_URI + '&loginTmpCode=' + loginTmpCode;
+			console.log('href', href);
+			debugger;
+			window.location.href = href;
+		}
+	};
+	if (typeof window.addEventListener != 'undefined') {
+		window.addEventListener('message', handleMessage, false);
+	} else if (typeof window.attachEvent != 'undefined') {
+		window.attachEvent('onmessage', handleMessage);
+	}
+</script>
 </body>
 
