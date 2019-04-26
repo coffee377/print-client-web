@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-const linkStyle = {
-	marginRight: 15
-};
-
+const linkStyle = { marginRight: 15 };
 const Header = () => (
 	<div>
 		<Link href="/">
@@ -15,5 +12,4 @@ const Header = () => (
 		</Link>
 	</div>
 );
-
 export default Header;
