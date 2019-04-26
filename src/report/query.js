@@ -2,8 +2,8 @@ import {
 	getUrl,
 	OP_SESSION_ID,
 	reportFormParamPrefix,
-	reportSessionIdName,
 	reportFrameIdSelector,
+	reportSessionIdName,
 	reportVersion,
 	serializeJSON4Form,
 	trimPrefix
@@ -43,7 +43,13 @@ function setReportSession(reportId, reportServer, params) {
 		let reportSessionID;
 		$.get(sessionUrl, res => {
 			reportSessionID = res;
-			if (reportSessionID && reportSessionID.match('^[0-9]*$')) {
+			if (reportSessionID && reportSessionID.match('^[0-9]+$')) {
+				console.log(`报表SessionID：${reportSessionID}`);
+				reportFrameIdSelector(reportId).attr(reportSessionIdName, reportSessionID);
+			}
+			// 8.0 集群配置下session获取
+			else if (reportSessionID && reportSessionID.match('^([0-9a-zA-Z]+_+)[0-9]+$')) {
+				reportSessionID = reportSessionID.replace(/^[0-9a-zA-Z]+_+/, '');
 				console.log(`报表SessionID：${reportSessionID}`);
 				reportFrameIdSelector(reportId).attr(reportSessionIdName, reportSessionID);
 			} else {
